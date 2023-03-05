@@ -76,7 +76,7 @@ export const TILE_KEY = {
     foreground: COLORS.gray,
     character: '',
     passable: true,
-    tags: ['BURNABLE', 'OVERGROWN'],
+    tags: ['BURNABLE', 'OVERGROWN', 'LOOT'],
   },
   'WALL_VERTICAL': {
     background: COLORS.liver,

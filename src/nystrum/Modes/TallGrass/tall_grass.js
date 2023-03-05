@@ -9,6 +9,8 @@ import * as MapHelper from '../../Maps/helper';
 import * as CoverGenerator from '../../Maps/coverGenerator';
 import * as BuildingGenerator from '../../Maps/generator';
 import { RenderedWithPickUpEffects, Wall } from '../../Entities';
+import { Ammo } from '../../Items/Pickups/Ammo';
+import { Gnasher } from '../../Items/Weapons/Gnasher';
 
 export class SomethingInTheTallGrass extends Mode {
   constructor({ ...args }) {
@@ -42,18 +44,23 @@ export class SomethingInTheTallGrass extends Mode {
   update() {}
 
   addLootCaches(numberOfCaches) {
-    Helper.range(numberOfCaches).forEach((index) => {
-      // overgrown buildings
-      this.addBuilding()
-      // beacons & boxes (broken tools and equipment)
-      // monster nests (eggs, webs, bones)
+    Helper.range(numberOfCaches).forEach(() => {
+      const cacheGenerator = Helper.getRandomInArray([
+        // overgrown buildings
+        this.addBuilding.bind(this),
+        // beacons & boxes (broken tools and equipment)
+        // monster nests (eggs, webs, bones)
+      ])
+
+      cacheGenerator()
     })
 
-    this.addBuildingOvergrowth()
+    this.addOvergrowth()
+    this.addLoot()
   }
 
   addBuilding() {
-    const keys = this.getEmptyGrassTileKeys()
+    const keys = this.getEmptyGroundTileKeys()
     const randomKey = Helper.getRandomInArray(keys)
     const pos = Helper.stringToCoords(randomKey)
     const rooms = Helper.getRandomIntInclusive(1, 2)
@@ -61,15 +68,35 @@ export class SomethingInTheTallGrass extends Mode {
     BuildingGenerator.generate(this.game.map, pos.x, pos.y, rooms, roomSize);
   }
 
-  addBuildingOvergrowth() {
+  addOvergrowth() {
     const keys = this.getEmptyTileKeysByTags(['OVERGROWN'])
     const percentOvergrown = 0.3;
     const numberOfOvergrownTiles = Math.round(keys.length * percentOvergrown)
     const randomSelection = Helper.getNumberOfItemsInArray(numberOfOvergrownTiles, keys)
     randomSelection.forEach((key) => {
-      this.game.map[key].type = 'LAYED_GRASS'
       this.placeTallGrass(Helper.stringToCoords(key))
     })
+  }
+
+  addLoot() {
+    const keys = this.getEmptyTileKeysByTags(['LOOT'])
+    const amountOfLoot = 2
+    const randomSelection = Helper.getNumberOfItemsInArray(amountOfLoot, keys)
+    randomSelection.forEach((key) => {
+      this.placeLootItem(Helper.stringToCoords(key))
+    })
+  }
+
+  placeLootItem(position) {
+    const itemCreator = Helper.getRandomInArray([
+      Ammo,
+      Gnasher
+    ])
+
+    const item = itemCreator(this.game.engine)
+    item.setPosition(position)
+
+    this.game.placeActorOnMap(item)
   }
 
   addMonsters() {
@@ -109,7 +136,6 @@ export class SomethingInTheTallGrass extends Mode {
       let key = x + "," + y;
       let type = Helper.getRandomInArray(['GROUND', 'GROUND_ALT'])
       if (value) { 
-        // type = 'TALL_GRASS';
         type = 'LAYED_GRASS';
       }
       MapHelper.addTileToMap({map: this.game.map, key, tileKey: this.game.tileKey, tileType: type})
@@ -135,6 +161,8 @@ export class SomethingInTheTallGrass extends Mode {
       }
     })
 
+    const tileType = Helper.getRandomInArray(['GROUND', 'GROUND_ALT'])
+    this.game.map[Helper.coordsToString(position)].type = tileType
     this.game.placeActorOnMap(grass)
   }
 
@@ -177,7 +205,8 @@ export class SomethingInTheTallGrass extends Mode {
   }
 
   getEmptyGroundTileKeys (keys = Object.keys(this.game.map)) {
-    return this.getEmptyTileKeys(keys).filter((key) => this.game.map[key].type === 'GROUND')
+    return this.getEmptyTileKeys(keys)
+      .filter((key) => this.game.map[key].type === 'GROUND' || this.game.map[key].type === 'GROUND_ALT')
   }
 
   getEmptyGrassTileKeys (keys = Object.keys(this.game.map)) {
