@@ -2,10 +2,12 @@ import * as ROT from 'rot-js';
 import { Mode } from '../default';
 import * as CONSTANT from '../../constants';
 import * as TALL_GRASS_CONSTANT from '../TallGrass/theme'
+import * as JACINTO_CONSTANT from '../Jacinto/theme'
 import * as MonsterActors from '../TallGrass/Actors/Monsters';
 import * as Helper from '../../../helper'
 import * as MapHelper from '../../Maps/helper';
 import * as CoverGenerator from '../../Maps/coverGenerator';
+import * as BuildingGenerator from '../../Maps/generator';
 import { RenderedWithPickUpEffects, Wall } from '../../Entities';
 
 export class SomethingInTheTallGrass extends Mode {
@@ -13,12 +15,13 @@ export class SomethingInTheTallGrass extends Mode {
     super({ ...args });
     this.game.tileKey = {
       ...CONSTANT.TILE_KEY,
+      ...JACINTO_CONSTANT.TILE_KEY,
       ...TALL_GRASS_CONSTANT.TILE_KEY,
     }
 
     this.data = {level: 0};
 
-    this.game.fovActive = true
+    // this.game.fovActive = true
   }
 
   initialize() {
@@ -26,21 +29,62 @@ export class SomethingInTheTallGrass extends Mode {
     this.game.createEmptyLevel();
     this.generateLevel()
     this.game.initializeMapTiles();
-    this.placePlayerOnEmptyTile()
-    
-    this.placeGeneratorPiece(Helper.getRandomPos(this.game.map).coordinates)
 
+    this.placePlayerOnEmptyTile()
+    this.placeGeneratorPiece(Helper.getRandomPos(this.game.map).coordinates)
+    
+    this.addLootCaches(2)
+    this.addMonsters()
+    this.addTallGrass()
+
+  }
+
+  update() {}
+
+  addLootCaches(numberOfCaches) {
+    Helper.range(numberOfCaches).forEach((index) => {
+      // overgrown buildings
+      this.addBuilding()
+      // beacons & boxes (broken tools and equipment)
+      // monster nests (eggs, webs, bones)
+    })
+
+    this.addBuildingOvergrowth()
+  }
+
+  addBuilding() {
+    const keys = this.getEmptyGrassTileKeys()
+    const randomKey = Helper.getRandomInArray(keys)
+    const pos = Helper.stringToCoords(randomKey)
+    const rooms = Helper.getRandomIntInclusive(1, 2)
+    const roomSize = Helper.getRandomIntInclusive(2, 4)
+    BuildingGenerator.generate(this.game.map, pos.x, pos.y, rooms, roomSize);
+  }
+
+  addBuildingOvergrowth() {
+    const keys = this.getEmptyTileKeysByTags(['OVERGROWN'])
+    const percentOvergrown = 0.3;
+    const numberOfOvergrownTiles = Math.round(keys.length * percentOvergrown)
+    const randomSelection = Helper.getNumberOfItemsInArray(numberOfOvergrownTiles, keys)
+    randomSelection.forEach((key) => {
+      this.game.map[key].type = 'LAYED_GRASS'
+      this.placeTallGrass(Helper.stringToCoords(key))
+    })
+  }
+
+  addMonsters() {
     Helper.range(3).forEach((index) => 
       MonsterActors.addSpitter(
         this, 
         Helper.getRandomPos(this.game.map).coordinates
         )
       )
-    
-    this.getEmptyGrassTileKeys().forEach((key) => this.placeTallGrass(Helper.stringToCoords(key)))
   }
 
-  update() {}
+  addTallGrass() {
+    this.getEmptyGrassTileKeys()
+      .forEach((key) => this.placeTallGrass(Helper.stringToCoords(key)))
+  }
 
   generateLevel_v1() {
     const x = Math.floor(this.game.mapWidth / 2)
@@ -125,6 +169,11 @@ export class SomethingInTheTallGrass extends Mode {
 
   getEmptyTileKeys (keys = Object.keys(this.game.map)) {
     return keys.filter((key) => !!!this.game.map[key].entities.length)
+  }
+
+  getEmptyTileKeysByTags (tags, keys = Object.keys(this.game.map)) {
+    return this.getEmptyTileKeys(keys)
+      .filter((key) => MapHelper.tileHasAnyTags({tile: this.game.map[key], tags}))
   }
 
   getEmptyGroundTileKeys (keys = Object.keys(this.game.map)) {

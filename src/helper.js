@@ -16,6 +16,19 @@ export const getRandomInArray = (array) => {
   return array[Math.floor(Math.random() * array.length)];
 }
 
+export function getNumberOfItemsInArray(number, originalArray) {
+  const array = [...originalArray]
+  let result = []
+
+  range(number).forEach(() => {
+    const index = Math.floor(Math.random() * array.length)
+    const item = array.splice(index, 1)
+    result = result.concat(item)
+  })
+
+  return result
+}
+
 export const getRandomInt = (min, max) => {
   min = Math.ceil(min);
   max = Math.floor(max);
