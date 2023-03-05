@@ -12,33 +12,24 @@ import { ExplodingAmmo } from '../../../Items/Pickups/ExplodingAmmo';
 import { SandSkin } from '../../../StatusEffects/SandSkin';
 import { MeleeDamage } from '../../../StatusEffects/MeleeDamage';
 import { JACINTO_SOUNDS } from '../../Jacinto/sounds';
+import { SpitterSac } from '../Items/Weapons/Spitter';
 
-export function addWretch (mode, pos) {
-  addGrubToMapWithStats(mode, pos, GRUB_STATS.wretch())
+export function addAbomination (mode, pos) {
+  addGrubToMapWithStats(mode, pos, GRUB_STATS.abomination())
 }
-export function addDrone (mode, pos) {
-  addGrubToMapWithStats(mode, pos, GRUB_STATS.drone())
+
+export function addSpitter (mode, pos) {
+  addGrubToMapWithStats(mode, pos, GRUB_STATS.spitter())
 }
-export function addDroneGrenadier (mode, pos) {
-  addGrubToMapWithStats(mode, pos, GRUB_STATS.drone_grenadier())
-}
-export function addHunter (mode, pos) {
-  addGrubToMapWithStats(mode, pos, GRUB_STATS.hunter())
-}
-export function addScion (mode, pos) {
-  addGrubToMapWithStats(mode, pos, GRUB_STATS.scion())
-}
-export function addSkorge (mode, pos) {
-  addGrubToMapWithStats(mode, pos, GRUB_STATS.scion())
-}
-export function addRandomGrub (mode, pos) {
+
+export function addRandom (mode, pos) {
   addRandomBasicGrubToMap(mode, pos)
 }
 
 const GRUB_STATS = {
-  wretch: () => {
+  adolescent: () => {
     return {
-      name: 'Wretch',
+      name: 'adolescent',
       renderer: {
         character: Helper.getRandomInArray(['w']),
         color: COLORS.flesh1,
@@ -47,8 +38,8 @@ const GRUB_STATS = {
       },
       durability: 2,
       attackDamage: 1,
-      baseDescription: 'A wrinkled, pale-fleshed abomination.',
-      baseDescriptors: ['gutteral chirps and a bloodthirst keep you at bay.'],
+      baseDescription: 'a wrinkled, pale-fleshed abomination.',
+      baseDescriptors: ['gutteral chirps and bloodthirst keep you at bay.'],
       behaviors: [
         new Behaviors.MoveTowardsEnemy({repeat: 5}),
         new Behaviors.Telegraph({repeat: 1, attackPattern: Constant.CLONE_PATTERNS.clover}),
@@ -67,25 +58,25 @@ const GRUB_STATS = {
       ],
     }
   },
-  drone: () => {
+  spitter: () => {
     return {
-      name: 'Drone',
+      name: 'spitter',
       renderer: {
-        character: 'd',
-        color: COLORS.flesh2,
-        background: COLORS.flesh1,
-        sprite: '',
+        character: 's',
+        color: COLORS.flesh1,
+        background: COLORS.green,
+        sprite: '',
       },
-      durability: 3,
+      durability: 1,
       attackDamage: 1,
       behaviors: [
-        new Behaviors.MoveTowardsEnemy({repeat: 5, maintainDistanceOf: 4}),
+        new Behaviors.MoveTowardsEnemy({repeat: 2, maintainDistanceOf: 4}),
         new Behaviors.TelegraphRangedAttack({repeat: 1}),
         new Behaviors.ExecuteRangedAttack({repeat: 1}),
       ],
       loadout: {
-        equipmentCreators: [Gnasher],
-        inventoryCreators: [{amount: 100, creator: Ammo}]
+        equipmentCreators: [SpitterSac],
+        inventoryCreators: [{amount: 1000, creator: Ammo}]
       },
     }
   },

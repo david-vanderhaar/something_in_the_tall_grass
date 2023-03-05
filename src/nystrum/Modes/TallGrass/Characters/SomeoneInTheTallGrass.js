@@ -20,6 +20,7 @@ import {PickupAllItems} from '../../../Actions/PickupAllItems';
 import { Grenade } from '../../../Items/Weapons/Grenade';
 import { Ammo } from '../../../Items/Pickups/Ammo';
 import {COLORS} from '../../Jacinto/theme';
+import * as TALL_GRASS_CONSTANT from '../../TallGrass/theme';
 import { Reload } from '../../../Actions/Reload';
 import { AddSandSkinStatusEffect } from '../../../Actions/AddSandSkinStatusEffect';
 import {UpgradeResource} from '../../../Actions/ActionResources/UpgradeResource';
@@ -32,7 +33,7 @@ import { MoveTargetingCursor } from '../../../Actions/MoveTargetingCursor';
 import { MoveTowards } from '../../../Actions/MoveTowards';
 import { GoToPreviousKeymap } from '../../../Actions/GoToPreviousKeymap';
 import { Lantern } from '../../../Items/Environment/Lantern';
-import { Revolver } from '../../../Items/Weapons/Revolver';
+import { Revolver } from '../Items/Weapons/Revolver';
 
 
 export default function (engine) {
@@ -41,7 +42,24 @@ export default function (engine) {
   const keymap = (engine, actor) => {
 
     function stepOnGrass () {
-      return
+      const entities = Helper.getEntitiesByPositionByAttr({
+        game: engine.game,
+        position: actor.getPosition(),
+        attr: 'name',
+        value: 'tall grass', 
+      })
+      
+      entities.forEach((entity) => {
+        entity.lightPassable = true
+        entity.renderer = {
+          ...entity.renderer,
+          background: TALL_GRASS_CONSTANT.COLORS.brown_sugar,
+          color: TALL_GRASS_CONSTANT.COLORS.sandy_brown,
+        }
+      })
+    }
+
+    function stepOnGrass_v1 () {
       const tile = engine.game.map[Helper.coordsToString(actor.getPosition())];
       if (tile && tile.type === 'TALL_GRASS') {
         tile.type = 'LAYED_GRASS';

@@ -152,6 +152,10 @@ export const filterEntitiesByType = (entites, type) => {
   return entites.filter((entity) => entity.entityTypes.includes(type));
 }
 
+export const filterEntitiesByAttr = (entites, attr, value) => {
+  return entites.filter((entity) => entity[attr] === value);
+}
+
 export const getEntitiesByPosition = ({game, position}) => {
   const tile = getTileAtPosition(game, position)
   return tile.entities
@@ -160,6 +164,11 @@ export const getEntitiesByPosition = ({game, position}) => {
 export const getEntitiesByPositionByType = ({game, position, entityType}) => {
   const entities = getEntitiesByPosition({game, position})
   return filterEntitiesByType(entities, entityType);
+}
+
+export const getEntitiesByPositionByAttr = ({game, position, attr, value}) => {
+  const entities = getEntitiesByPosition({game, position})
+  return filterEntitiesByAttr(entities, attr, value);
 }
 
 const getGranularity = (radius) => {

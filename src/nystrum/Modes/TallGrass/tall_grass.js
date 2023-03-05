@@ -18,7 +18,7 @@ export class SomethingInTheTallGrass extends Mode {
 
     this.data = {level: 0};
 
-    // this.game.fovActive = true
+    this.game.fovActive = true
   }
 
   initialize() {
@@ -29,7 +29,14 @@ export class SomethingInTheTallGrass extends Mode {
     this.placePlayerOnEmptyTile()
     
     this.placeGeneratorPiece(Helper.getRandomPos(this.game.map).coordinates)
-    Helper.range(1).forEach((index) => MonsterActors.addWretch(this, Helper.getRandomPos(this.game.map).coordinates))
+
+    Helper.range(3).forEach((index) => 
+      MonsterActors.addSpitter(
+        this, 
+        Helper.getRandomPos(this.game.map).coordinates
+        )
+      )
+    
     this.getEmptyGrassTileKeys().forEach((key) => this.placeTallGrass(Helper.stringToCoords(key)))
   }
 
@@ -90,7 +97,7 @@ export class SomethingInTheTallGrass extends Mode {
   placeGeneratorPiece(position) {
     const item = new RenderedWithPickUpEffects({
       name: 'an important component',
-      description: 'a component that powers up our base camp generator',
+      baseDescription: 'a component that powers up our base camp generator',
       pos: position,
       passable: true,
       renderer: {
