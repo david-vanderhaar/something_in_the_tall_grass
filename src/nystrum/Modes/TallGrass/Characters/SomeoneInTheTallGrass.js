@@ -34,6 +34,7 @@ import { MoveTowards } from '../../../Actions/MoveTowards';
 import { GoToPreviousKeymap } from '../../../Actions/GoToPreviousKeymap';
 import { Lantern } from '../../../Items/Environment/Lantern';
 import { Revolver } from '../Items/Weapons/Revolver';
+import { Battery } from '../Items/Pickups/Battery';
 
 
 export default function (engine) {
@@ -260,6 +261,7 @@ export default function (engine) {
   const lantern = Lantern({engine, lightRange: 6})
   const ammo = Array(10).fill('').map(() => Ammo(engine));
   const grenades = Array(2).fill('').map(() => Grenade(engine, 6));
+  const batteries = Array(2).fill('').map(() => Battery());
   actor.container = [
     new ContainerSlot({
       itemType: ammo[0].name,
@@ -268,6 +270,10 @@ export default function (engine) {
     new ContainerSlot({
       itemType: grenades[0].name,
       items: grenades,
+    }),
+    new ContainerSlot({
+      itemType: batteries[0].name,
+      items: batteries,
     }),
   ]
 

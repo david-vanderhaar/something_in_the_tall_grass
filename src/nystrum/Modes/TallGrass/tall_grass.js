@@ -11,6 +11,7 @@ import * as BuildingGenerator from '../../Maps/generator';
 import { RenderedWithPickUpEffects, Wall } from '../../Entities';
 import { Ammo } from '../../Items/Pickups/Ammo';
 import { Gnasher } from '../../Items/Weapons/Gnasher';
+import { Beacon, Lantern } from '../../Items/Environment/Lantern';
 
 export class SomethingInTheTallGrass extends Mode {
   constructor({ ...args }) {
@@ -23,7 +24,7 @@ export class SomethingInTheTallGrass extends Mode {
 
     this.data = {level: 0};
 
-    // this.game.fovActive = true
+    this.game.fovActive = true
   }
 
   initialize() {
@@ -47,8 +48,9 @@ export class SomethingInTheTallGrass extends Mode {
     Helper.range(numberOfCaches).forEach(() => {
       const cacheGenerator = Helper.getRandomInArray([
         // overgrown buildings
-        this.addBuilding.bind(this),
+        // this.addBuilding.bind(this),
         // beacons & boxes (broken tools and equipment)
+        this.addBeacon.bind(this),
         // monster nests (eggs, webs, bones)
       ])
 
@@ -66,6 +68,23 @@ export class SomethingInTheTallGrass extends Mode {
     const rooms = Helper.getRandomIntInclusive(1, 2)
     const roomSize = Helper.getRandomIntInclusive(2, 4)
     BuildingGenerator.generate(this.game.map, pos.x, pos.y, rooms, roomSize);
+  }
+
+  addBeacon() {
+    const keys = this.getEmptyGrassTileKeys()
+    const randomKey = Helper.getRandomInArray(keys)
+    const origin = Helper.stringToCoords(randomKey)
+
+    const positions = Helper.getPointsWithinRadius(origin, 4)
+    positions.forEach((position) => {
+      const tile = MapHelper.getTileFromMap({map: this.game.map, position})
+      if (tile) tile.type = 'STEEL_FLOOR'
+    })
+
+    const lantern = Beacon({engine: this.game.engine, lightRange: 1})
+    lantern.setPosition(origin)
+    this.game.placeActorOnMap(lantern)
+    // CoverGenerator.generateCoverBlock(origin, this.game)
   }
 
   addOvergrowth() {

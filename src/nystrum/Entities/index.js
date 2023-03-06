@@ -293,3 +293,9 @@ export const ParticleEmitter = pipe(
   Destructable,
   Parent,
 )(Entity);
+
+export const Light = pipe(
+  Rendering,
+  Equipable,
+  Illuminating,
+)(Entity)

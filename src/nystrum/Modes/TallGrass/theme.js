@@ -78,6 +78,13 @@ export const TILE_KEY = {
     passable: true,
     tags: ['BURNABLE', 'OVERGROWN', 'LOOT'],
   },
+  'STEEL_FLOOR': {
+    background: COLORS.gray,
+    foreground: COLORS.gray,
+    character: '',
+    passable: true,
+    tags: ['LOOT'],
+  },
   'WALL_VERTICAL': {
     background: COLORS.liver,
     foreground: COLORS.raw_umber,
