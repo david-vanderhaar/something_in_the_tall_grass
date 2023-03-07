@@ -82,7 +82,7 @@ export class SomethingInTheTallGrass extends Mode {
       if (tile) tile.type = 'STEEL_FLOOR'
     })
 
-    const lantern = Beacon({engine: this.game.engine, lightRange: 1})
+    const lantern = Beacon({engine: this.game.engine, lightRange: 0})
     lantern.setPosition(origin)
     this.game.placeActorOnMap(lantern)
     // CoverGenerator.generateCoverBlock(origin, this.game)

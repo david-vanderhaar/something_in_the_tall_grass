@@ -35,6 +35,7 @@ import { GoToPreviousKeymap } from '../../../Actions/GoToPreviousKeymap';
 import { Lantern } from '../../../Items/Environment/Lantern';
 import { Revolver } from '../Items/Weapons/Revolver';
 import { Battery } from '../Items/Pickups/Battery';
+import { LayGrass } from '../StatusEffects/LayGrass';
 
 
 export default function (engine) {
@@ -50,21 +51,16 @@ export default function (engine) {
         value: 'tall grass', 
       })
       
+      
       entities.forEach((entity) => {
-        entity.lightPassable = true
-        entity.renderer = {
-          ...entity.renderer,
-          background: TALL_GRASS_CONSTANT.COLORS.brown_sugar,
-          color: TALL_GRASS_CONSTANT.COLORS.sandy_brown,
-        }
+        const effect = new LayGrass({
+          game: engine.game,
+          actor: entity,
+          lifespan: Constant.ENERGY_THRESHOLD * 3,
+          stepInterval: Constant.ENERGY_THRESHOLD
+        })
+        engine.addStatusEffect(effect);
       })
-    }
-
-    function stepOnGrass_v1 () {
-      const tile = engine.game.map[Helper.coordsToString(actor.getPosition())];
-      if (tile && tile.type === 'TALL_GRASS') {
-        tile.type = 'LAYED_GRASS';
-      }
     }
 
     return {

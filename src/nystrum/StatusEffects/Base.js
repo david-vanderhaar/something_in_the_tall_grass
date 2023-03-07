@@ -12,7 +12,8 @@ export class Base {
     onStart = () => null,
     onStep = () => null,
     onStop = () => null,
-    renderer = {background: 'green', color: 'white', character: '*'}
+    renderer = {background: 'green', color: 'white', character: '*'},
+    processOnlyOnPlayerTurn = false,
   }) {
     this.game = game
     this.actor = actor
@@ -27,6 +28,7 @@ export class Base {
     this.onStep = onStep
     this.onStop = onStop
     this.renderer = renderer
+    this.processOnlyOnPlayerTurn = processOnlyOnPlayerTurn
   }
 
   static displayName = 'Base Effect'
