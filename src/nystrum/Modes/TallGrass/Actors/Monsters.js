@@ -80,125 +80,6 @@ const GRUB_STATS = {
       },
     }
   },
-  drone_grenadier: () => {
-    return {
-      name: 'Grenadier',
-      renderer: {
-        character: 'db',
-        color: COLORS.flesh2,
-        background: COLORS.flesh1,
-        sprite: '',
-      },
-      durability: 3,
-      attackDamage: 1,
-      behaviors: [
-        new Behaviors.MoveTowardsEnemy({repeat: 1, maintainDistanceOf: 4}),
-        new Behaviors.TelegraphRangedAttackThroughCover({repeat: 1}),
-        new Behaviors.ExecuteRangedAttack({repeat: 1}),
-      ],
-      loadout: {
-        equipmentCreators: [GrenadeThrower],
-        inventoryCreators: [{amount: 10, creator: ExplodingAmmo}]
-      },
-    }
-  },
-  hunter: () => {
-    return {
-      name: 'Hunter',
-      renderer: {
-        character: 'h',
-        color: COLORS.flesh2,
-        background: COLORS.flesh1,
-        sprite: '',
-      },
-      durability: 3,
-      attackDamage: 1,
-      behaviors: [
-        new Behaviors.MoveTowardsCover({repeat: 5}),
-        new Behaviors.Wait({repeat: 1}),
-        new Behaviors.TelegraphRangedAttack({repeat: 1}),
-        new Behaviors.ExecuteRangedAttack({repeat: 1}),
-        new Behaviors.TelegraphRangedAttack({repeat: 1}),
-        new Behaviors.ExecuteRangedAttack({repeat: 1}),
-      ],
-      loadout: {
-        equipmentCreators: [HammerBurst],
-        inventoryCreators: [{amount: 100, creator: Ammo}]
-      },
-    }
-  },
-  scion: () => {
-    return {
-      name: 'Scion',
-      renderer: {
-        character: 'S',
-        color: COLORS.flesh2,
-        background: COLORS.flesh1,
-        sprite: '',
-      },
-      durability: 10,
-      attackDamage: 4,
-      behaviors: [
-        new Behaviors.MoveTowardsEnemy({repeat: 5}),
-        new Behaviors.Telegraph({
-          repeat: 1,
-          attackPattern: Constant.CLONE_PATTERNS.big_circle,
-          color: COLORS.blue,
-        }),
-        new Behaviors.ExecuteStatusEffectOnAllies({
-          repeat: 1, 
-          effectClass: MeleeDamage,
-          effectDefaults: {
-            buffValue: 1,
-            lifespan: Constant.ENERGY_THRESHOLD * 10,
-            stepInterval: Constant.ENERGY_THRESHOLD,
-            processDelay: 200
-          },
-          extraActionParams: {
-            onSuccess: () => {
-              Helper.getRandomInArray([
-                JACINTO_SOUNDS.locust_buff_01,
-                JACINTO_SOUNDS.locust_buff_02,
-                JACINTO_SOUNDS.locust_buff_03,
-              ]).play()
-            }
-          }
-        }),
-        new Behaviors.MoveTowardsEnemy({repeat: 5}),
-        new Behaviors.Telegraph({repeat: 1, attackPattern: Constant.CLONE_PATTERNS.big_circle}),
-        new Behaviors.ExecuteAttack({
-          repeat: 1,
-          extraActionParams: {
-            onSuccess: () => {
-              Helper.getRandomInArray([
-                JACINTO_SOUNDS.scion_melee_01,
-                JACINTO_SOUNDS.scion_melee_02,
-                JACINTO_SOUNDS.scion_melee_03,
-              ]).play()
-            }
-          }
-        }),
-      ],
-    }
-  },
-  skorge: () => {
-    return {
-      renderer: {
-        sprite: '',
-        character: 'S',
-        color: COLORS.flesh1,
-        background: COLORS.base04,
-      },
-      name: 'Skorge',
-      durability: 40,
-      attackDamage: 5,
-      behaviors: [
-        new Behaviors.MoveTowardsEnemy({repeat: 5}),
-        new Behaviors.Telegraph({repeat: 1, attackPattern: Constant.CLONE_PATTERNS.clover}),
-        new Behaviors.ExecuteAttack({repeat: 1}),
-      ],
-    }
-  },
 };
 
 const createBaseGrubStats = (mode, pos) => {
@@ -219,7 +100,7 @@ const createBaseGrubStats = (mode, pos) => {
   }
 }
 
-export function createRandomBasicGrub(mode, pos) {
+export function createRandomBasic(mode, pos) {
   const createStats = Helper.getRandomInArray(
     Object
     .keys(GRUB_STATS)
@@ -268,7 +149,7 @@ function createInventorySlot (engine, amount, creator) {
 } 
 
 function addRandomBasicGrubToMap (mode, pos) {
-  const entityCreator = () => createRandomBasicGrub(mode, pos)
+  const entityCreator = () => createRandomBasic(mode, pos)
   addEntityToMapWithStatsUsingCreator(mode, entityCreator)
 }
 

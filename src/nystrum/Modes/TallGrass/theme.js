@@ -63,6 +63,14 @@ export const TILE_KEY = {
     passable: true,
     tags: [],
   },
+  'NEST': {
+    background: COLORS.liver,
+    foreground: COLORS.white,
+    character: '+',
+    sprite: '',
+    passable: true,
+    tags: ['LOOT'],
+  },
   'DOOR': {
     background: COLORS.liver,
     foreground: COLORS.brown_sugar,

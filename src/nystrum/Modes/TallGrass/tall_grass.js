@@ -8,7 +8,7 @@ import * as Helper from '../../../helper'
 import * as MapHelper from '../../Maps/helper';
 import * as CoverGenerator from '../../Maps/coverGenerator';
 import * as BuildingGenerator from '../../Maps/generator';
-import { RenderedWithPickUpEffects, Wall } from '../../Entities';
+import { EmergenceHole, RenderedWithPickUpEffects, Wall } from '../../Entities';
 import { Ammo } from '../../Items/Pickups/Ammo';
 import { Gnasher } from '../../Items/Weapons/Gnasher';
 import { Beacon, Lantern } from '../../Items/Environment/Lantern';
@@ -48,10 +48,11 @@ export class SomethingInTheTallGrass extends Mode {
     Helper.range(numberOfCaches).forEach(() => {
       const cacheGenerator = Helper.getRandomInArray([
         // overgrown buildings
-        // this.addBuilding.bind(this),
+        this.addBuilding.bind(this),
         // beacons & boxes (broken tools and equipment)
         this.addBeacon.bind(this),
         // monster nests (eggs, webs, bones)
+        this.addNest.bind(this),
       ])
 
       cacheGenerator()
@@ -85,6 +86,47 @@ export class SomethingInTheTallGrass extends Mode {
     lantern.setPosition(origin)
     this.game.placeActorOnMap(lantern)
     // CoverGenerator.generateCoverBlock(origin, this.game)
+  }
+
+  addNest() {
+    const keys = this.getEmptyTileKeys()
+    const randomKey = Helper.getRandomInArray(keys)
+    const origin = Helper.stringToCoords(randomKey)
+
+
+    const positions = Helper.getPointsWithinRadius(origin, 2)
+    positions.forEach((position) => {
+      const tile = MapHelper.getTileFromMap({map: this.game.map, position})
+      if (tile) tile.type = 'NEST'
+    })
+
+    const nest = new EmergenceHole({
+      name: 'nest',
+      pos: origin,
+      game: this.game,
+      passable: true,
+      renderer: {
+        character: '+',
+        sprite: '',
+        color: TALL_GRASS_CONSTANT.COLORS.flesh1,
+        background: TALL_GRASS_CONSTANT.COLORS.black
+      },
+      timeToSpread: 5,
+      spreadCount: 10,
+      durability: 1,
+      faction: 'MONSTER',
+      enemyFactions: ['PEOPLE'],
+      speed: CONSTANT.ENERGY_THRESHOLD,
+      getSpawnedEntity: (spawnPosition) => MonsterActors.createRandomBasic(this, spawnPosition),
+      onDestroy: () => {
+        this.game.map[Helper.coordsToString(origin)].type = 'GROUND'
+      },
+    });
+
+    if (this.game.placeActorOnMap(nest)) {
+      this.game.engine.addActor(nest);
+      this.game.draw();
+    };
   }
 
   addOvergrowth() {
@@ -148,7 +190,7 @@ export class SomethingInTheTallGrass extends Mode {
 
   generateLevel () {
     const digger = new ROT.Map.Cellular(this.game.mapWidth, this.game.mapHeight);
-    digger.randomize(0.6)
+    digger.randomize(0.6) // the higher this percentage, the hight the difficulty due to more tall grass
     Helper.range(4).forEach(() => digger.create())
     let freeCells = [];
     let digCallback = function (x, y, value) {      
