@@ -7,7 +7,7 @@ import { WeakHits } from '../Modes/TallGrass/StatusEffects/WeakHits';
 const fearEffects = [
   [PoorSight, {lifespan: ENERGY_THRESHOLD * 5}],
   [WeakHits, {lifespan: ENERGY_THRESHOLD * 5}],
-  // RunningScared, // run in a straigt line for a few turns
+  // RunningScared, // run in a straigt line for a few turns (set tackle as next action?)
   // SweatyPalms, // may drop equipped item
 ]
 
