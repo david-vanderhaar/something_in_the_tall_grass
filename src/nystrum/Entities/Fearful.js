@@ -1,29 +1,78 @@
+import * as Helper from '../../helper';
+import { ENERGY_THRESHOLD } from '../constants';
+import { FearOfDark } from "../Modes/TallGrass/StatusEffects/FearOfDark";
+import { PoorSight } from '../Modes/TallGrass/StatusEffects/PoorSight';
+import { WeakHits } from '../Modes/TallGrass/StatusEffects/WeakHits';
+
+const fearEffects = [
+  [PoorSight, {lifespan: ENERGY_THRESHOLD * 5}],
+  [WeakHits, {lifespan: ENERGY_THRESHOLD * 5}],
+  // RunningScared, // run in a straigt line for a few turns
+  // SweatyPalms, // may drop equipped item
+]
+
 export const Fearful = superclass => class extends superclass {
-  constructor({ fearPoints = 0, maxFearPoints = 3, ...args }) {
+  constructor({ fearPoints = 0, maxFearPoints = 3, lightSafetyRange = 3, ...args }) {
     super({ ...args });
     this.entityTypes = this.entityTypes.concat('FEARFUL');
     this.fearPoints = fearPoints;
     this.maxFearPoints = maxFearPoints;
+    this.lightSafetyRange = lightSafetyRange
+    this.initializeStatusEffect()
+    
   }
 
   setFear(points) {
-    this.fearPoints = points
-    // chance to add status effect here based on percentage of fear
+    this.fearPoints = Helper.clamp(points, 0, this.maxFearPoints)
+  }
+
+  addRandomFearEffect() {
+    const [effectClass, args] = Helper.getRandomInArray(fearEffects)
+    const effect = new effectClass({
+      game: this.game,
+      actor: this,
+      ...args
+    })
+    
+    this.game.engine.addStatusEffect(effect)
+  }
+
+  shouldAddFearEffect() {
+    return Math.random() < (this.fearPoints / this.maxFearPoints)
+  }
+
+  incrementFear(amount = 1) {
+    this.setFear(this.fearPoints + amount)
+  }
+
+  decrementFear(amount = 1) {
+    this.setFear(this.fearPoints - amount)
   }
 
   setFearByLightStrength() {
-    // arbitraryLightSourceDistanceSafety == 3
-    // arbitraryLightRangeSafety == 3
-    // entity gains fear once arbitraryLightSourceDistanceSafety < (lightSource.lightRange - distanceToLightSource)
-    // so a player that is holding a lantern w/ lightRange == 2; gains a fear point
-    //   3 > 2 - 0
-    // so a player that is holding a lantern w/ lightRange == 3; does not gain a fear point
-    //   3 > 3 - 0
-    // so a player that is 2 tiles from a lantern w/ lightRange == 3; gains a fear point
-    //   3 > 3 - 2
-    // so a player that is 2 tiles from a lantern w/ lightRange == 4; gains a fear point
-    //   3 > 4 - 2
-    // so a player that is 2 tiles from a lantern w/ lightRange == 6; does not gain a fear point
-    //   3 > 6 - 2
+    const safeLights = this.getAllLights().filter((light) => !this.isNotInLightSafety(light))
+    if (safeLights.length > 0) this.decrementFear()
+    else this.incrementFear()
+
+    if (this.shouldAddFearEffect()) this.addRandomFearEffect()
+  }
+
+  isNotInLightSafety(lightSource) {
+    const distanceToLightSource = Helper.diagonal_distance(this.getPosition(), lightSource.getPosition())
+
+    return this.lightSafetyRange > (lightSource.lightRange - distanceToLightSource)
+  }
+
+  getAllLights() {
+    return Helper.filterEntitiesByType(this.game.entityLog.getAllEntities(), 'ILLUMINATING')
+  }
+
+  initializeStatusEffect() {
+    const effect = new FearOfDark({
+      game: this.game,
+      actor: this,
+    })
+
+    this.game.engine.addStatusEffect(effect);
   }
 };

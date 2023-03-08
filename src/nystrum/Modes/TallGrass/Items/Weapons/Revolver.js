@@ -11,7 +11,7 @@ export const Revolver = ({engine, position}) => new RangedWeapon({
   magazineSize: 10,
   baseRangedAccuracy: 1,
   baseRangedDamage: 2,
-  attackDamage: 1,
+  attackDamage: 0,
   pos: position,
   // shapePattern: Constant.CLONE_PATTERNS.square,
   equipmentType: Constant.EQUIPMENT_TYPES.HAND,

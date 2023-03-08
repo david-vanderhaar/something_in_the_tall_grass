@@ -24,7 +24,7 @@ export class SomethingInTheTallGrass extends Mode {
 
     this.data = {level: 0};
 
-    this.game.fovActive = true
+    // this.game.fovActive = true
   }
 
   initialize() {

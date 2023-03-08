@@ -47,6 +47,7 @@ import { Projecting } from './Projecting';
 import { TimeBombing } from './TimeBombing';
 import { HasPickupEffects } from './HasPickupEffects';
 import { Illuminating } from './Illuminating';
+import { Fearful } from './Fearful';
 
 export const UI_Actor = pipe(
   Acting,
@@ -188,7 +189,7 @@ export const Player = pipe(
   HasFaction,
   CanActivateStatusEffects,
   UsesCover,
-  // Illuminating,
+  Fearful,
 )(Entity);
 
 export const Weapon = pipe(
