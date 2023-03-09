@@ -7,6 +7,7 @@ export const Revolver = ({engine, position}) => new RangedWeapon({
   game: engine.game,
   name: 'Revolver',
   passable: true,
+  lightPassable: true,
   attackRange: 6,
   magazineSize: 10,
   baseRangedAccuracy: 1,

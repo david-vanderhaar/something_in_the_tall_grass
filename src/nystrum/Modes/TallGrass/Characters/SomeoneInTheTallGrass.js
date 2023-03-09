@@ -72,25 +72,25 @@ export default function (engine) {
         energyCost: Constant.ENERGY_THRESHOLD,
       }),
       e: () => new Say({
-        label: 'Brighten',
-        message: 'you crank the knob right. the light burns brighter.',
+        label: 'Hand Crank',
+        message: 'you use the hande crank. the light burns brighter.',
         game: engine.game,
         actor,
-        energyCost: Constant.ENERGY_THRESHOLD,
+        energyCost: actor.speed,
         onSuccess: () => {
-          lantern.lightRange += 1
+          lantern.incrementLightRange()
         },
       }),
-      q: () => new Say({
-        label: 'Dim',
-        message: 'you crank the knob left. the light dims.',
-        game: engine.game,
-        actor,
-        energyCost: Constant.ENERGY_THRESHOLD,
-        onSuccess: () => {
-          lantern.lightRange -= 1
-        },
-      }),
+      // q: () => new Say({
+      //   label: 'Dim',
+      //   message: 'you crank the knob left. the light dims.',
+      //   game: engine.game,
+      //   actor,
+      //   energyCost: Constant.ENERGY_THRESHOLD,
+      //   onSuccess: () => {
+      //     lantern.lightRange -= 1
+      //   },
+      // }),
       'w,ArrowUp': () => {
         const direction = Constant.DIRECTIONS.N;
         let newX = actor.pos.x + direction[0];

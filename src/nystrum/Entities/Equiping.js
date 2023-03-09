@@ -20,6 +20,10 @@ export const Equiping = superclass => class extends superclass {
     return success
   }
 
+  getEquippedItems() {
+    return this.equipment.map((slot) => slot.item).filter((item) => item !== null)
+  }
+
   hasItemNameEquipped(itemName) {
     const equipment = this.equipment.filter((slot) => {
       if (slot.item) {

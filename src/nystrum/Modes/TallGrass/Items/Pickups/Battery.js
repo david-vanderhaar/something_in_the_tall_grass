@@ -9,16 +9,27 @@ export const Battery = (strength = 4) => {
     if (isUsed) return
   
     const pos = actor.getPosition()
-    const tiles = Helper.getNeighboringTiles(actor.game.map, pos)
+    const currentTile = Helper.getTileAtPosition(actor.game, pos)
+    const tiles = Helper.getNeighboringTiles(actor.game.map, pos).concat(currentTile)
     const lights = tiles.reduce((acc, tile) => {
-      return acc.concat(Helper.filterEntitiesByType(tile.entities, 'ILLUMINATING'))
+      const lightsOnTile = Helper.filterEntitiesByType(tile.entities, 'ILLUMINATING')
+      const equippingEntities = Helper.filterEntitiesByType(tile.entities, 'EQUIPING')
+      let lightsEquipped = []
+
+      equippingEntities.forEach((entity) => {
+        const items = Helper.filterEntitiesByType(entity.getEquippedItems(), 'ILLUMINATING')
+        lightsEquipped = lightsEquipped.concat(items)
+      })
+
+      return acc.concat(lightsOnTile).concat(lightsEquipped)
     }, [])
   
     if (lights.length === 0) return
   
     lights.forEach((light) => light.lightRange += strength)
-    item.renderer.background = COLORS.sunset
-    item.renderer.color = COLORS.white
+    item.name = 'used battery'
+    item.renderer.background = COLORS.gray
+    item.renderer.color = COLORS.orange
     item.addDescriptor('a spent battery, not much use anymore.')
     isUsed = true
 
