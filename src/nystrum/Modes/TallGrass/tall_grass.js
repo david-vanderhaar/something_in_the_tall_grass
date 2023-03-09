@@ -22,9 +22,8 @@ export class SomethingInTheTallGrass extends Mode {
       ...TALL_GRASS_CONSTANT.TILE_KEY,
     }
 
-    this.data = {level: 0};
-
-    this.game.fovActive = true
+    this.data = {level: 1, finalLevel: 10};
+    // this.game.fovActive = true
   }
 
   initialize() {
@@ -33,16 +32,36 @@ export class SomethingInTheTallGrass extends Mode {
     this.generateLevel()
     this.game.initializeMapTiles();
 
-    this.placePlayerOnEmptyTile()
-    this.placeGeneratorPiece(Helper.getRandomPos(this.game.map).coordinates)
     
-    this.addLootCaches(2)
-    this.addMonsters()
-    this.addTallGrass()
+    if (this.data.level < this.data.finalLevel) {
+      this.placePlayerOnEmptyTile()
+      this.placeGeneratorPiece(Helper.getRandomPos(this.game.map).coordinates)
+      this.addLootCaches(2)
+      this.addMonsters()
+    } else {
+      this.addBaseCamp()
+      this.addMonsters()
+      // place monsters
+      // place monster nests 
+      const mapCenter = {x: Math.round(this.game.mapWidth / 2), y: Math.round(this.game.mapHeight / 2)}
+      this.placePlayerAtPosition(mapCenter)
+    }
 
+    this.addTallGrass()
   }
 
-  update() {}
+  update() {
+    super.update();
+    if (this.hasWon()) {
+      this.game.toWin()
+    }
+  }
+
+  addBaseCamp() {
+    // place building in middle of map
+    // place ammo and batteries in building
+    // place beacons at four corners
+  }
 
   addLootCaches(numberOfCaches) {
     Helper.range(numberOfCaches).forEach(() => {
@@ -160,8 +179,8 @@ export class SomethingInTheTallGrass extends Mode {
     this.game.placeActorOnMap(item)
   }
 
-  addMonsters() {
-    Helper.range(3).forEach((index) => 
+  addMonsters(amount = 1) {
+    Helper.range(amount).forEach((index) => 
       MonsterActors.addSpitter(
         this, 
         Helper.getRandomPos(this.game.map).coordinates
@@ -256,6 +275,14 @@ export class SomethingInTheTallGrass extends Mode {
     this.game.placeActorOnMap(player)
   }
 
+  placePlayerAtPosition(position) {
+    const player = this.game.getFirstPlayer()
+    if (!player) return
+
+    player.setPosition(position)
+    this.game.placeActorOnMap(player)
+  }
+
   getEmptyTileKeys (keys = Object.keys(this.game.map)) {
     return keys.filter((key) => !!!this.game.map[key].entities.length)
   }
@@ -294,6 +321,7 @@ export class SomethingInTheTallGrass extends Mode {
   destroyAllMonsters() { this.enemies().forEach((enemy) => enemy.destroy()) }
 
   // reset () {
+  //   this.destroyAllMonsters()
   //   this.setLevel(1);
   //   this.initialize();
   // }
@@ -304,31 +332,17 @@ export class SomethingInTheTallGrass extends Mode {
   //   this.data = {...this.data, ...nextLevelData, hasPlayedEndSound: false}
   // }
 
-  // levelComplete () {
-  //   const playerOnExit = this.playerIsOnExit();
-  //   const enemiesDefeated = this.enemiesDefeated();
-  //   if (enemiesDefeated) {
-  //     this.activateExitTiles();
-  //     if (!this.data.hasPlayedEndSound) {
-  //       JACINTO_SOUNDS.level_end.play()
-  //       this.data.hasPlayedEndSound = true
-  //     }
-  //   }
-
-  //   return playerOnExit && enemiesDefeated
-  // }
-
-  // enemiesDefeated () {
-  //   return this.enemies().length <= 0
-  // }
+  enemiesDefeated () {
+    return this.enemies().length <= 0
+  }
 
   enemies () {
     return this.game.engine.actors.filter((actor) => actor['faction'] === 'MONSTER')
   }
 
-  // hasWon () {
-  //   return this.data.level > this.dataByLevel.length;
-  // }
+  hasWon () {
+    return (this.data.level >= this.data.finalLevel && this.enemiesDefeated());
+  }
 
   // hasLost () {
   //   let players = this.getPlayers()
