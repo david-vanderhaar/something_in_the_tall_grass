@@ -37,7 +37,7 @@ export class PrepareLooking extends Base {
     let targetIndex = 0;
     positionsInRange.forEach((position) => {
       let tile = this.game.map[Helper.coordsToString(position)];
-      if (tile) { 
+      if (tile) {
         targets = [
           ...targets,
           ...tile.entities
