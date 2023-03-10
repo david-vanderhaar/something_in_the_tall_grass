@@ -323,7 +323,6 @@ export class Game {
       //   }
       // }
 
-      // Proto code to handle tile animations
       let tileRenderer = {...this.tileKey[tile.type]}
       let nextFrame = this.animateTile(tile, tileRenderer, shouldAnimate);
       let character = nextFrame.character;
@@ -334,8 +333,11 @@ export class Game {
         background = 'transparent'
       }
       
+      const renderedEntities = tile.entities.filter((entity) => entity.entityTypes.includes('RENDERING'))
+
+      renderedEntities.forEach((entity) => entity['isInFov'] = false)
+
       if (!this.fovActive) {
-        const renderedEntities = tile.entities.filter((entity) => entity.entityTypes.includes('RENDERING'))
         if (renderedEntities.length > 0) {
           let entity = renderedEntities[renderedEntities.length - 1]
           nextFrame = this.animateEntity(entity);
@@ -383,6 +385,7 @@ export class Game {
         background = Helper.interpolateHexColor(background, light.lightColor, percentage)
   
         const renderedEntities = tile.entities.filter((entity) => entity.entityTypes.includes('RENDERING'))
+        renderedEntities.forEach((entity) => entity['isInFov'] = true)
         if (renderedEntities.length > 0) {
           let entity = renderedEntities[renderedEntities.length - 1]
           nextFrame = this.animateEntity(entity);
@@ -397,7 +400,6 @@ export class Game {
         callback(key, x, y, character, foreground, background);
       });
     })
-
   }
 
   fovLightPasses(x, y) {

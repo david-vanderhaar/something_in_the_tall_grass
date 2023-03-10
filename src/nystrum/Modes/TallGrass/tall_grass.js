@@ -42,7 +42,7 @@ export class SomethingInTheTallGrass extends Mode {
       ],
     };
 
-    // this.game.fovActive = true
+    this.game.fovActive = true
   }
 
   initialize() {
