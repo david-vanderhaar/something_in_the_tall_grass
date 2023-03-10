@@ -376,7 +376,7 @@ export class Game {
         let foreground = nextFrame.foreground;
         let background = tile?.overriddenBackground || nextFrame.background;
 
-        const percentageByVisibility = Math.min(visibility, 0.8)
+        const percentageByVisibility = Math.min(visibility, 0.4)
         const percentageByRange = (1 - (range / light.lightRange))
         const percentage = percentageByVisibility * percentageByRange
 

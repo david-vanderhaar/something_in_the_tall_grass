@@ -20,13 +20,19 @@ export const SpitterSac = (engine, position) => new RangedWeapon({
     color: COLORS.green,
     background: COLORS.base01,
   },
-  rangedHitSounds: [ // update
-    JACINTO_SOUNDS.pistol_fire_01,
-    JACINTO_SOUNDS.pistol_fire_02,
+  rangedHitSounds: [
+    JACINTO_SOUNDS.sac_01,
+    JACINTO_SOUNDS.sac_02,
+    JACINTO_SOUNDS.sac_03,
   ],
-  rangedMissSounds: [ // update
-    JACINTO_SOUNDS.bullet_miss_01,
-    JACINTO_SOUNDS.bullet_miss_02,
-    JACINTO_SOUNDS.bullet_miss_03,
+  rangedMissSounds: [
+    JACINTO_SOUNDS.screech_01,
+    JACINTO_SOUNDS.screech_02,
+    JACINTO_SOUNDS.screech_03,
+  ],
+  rangedReloadSounds: [
+    JACINTO_SOUNDS.screech_01,
+    JACINTO_SOUNDS.screech_02,
+    JACINTO_SOUNDS.screech_03,
   ]
 });
