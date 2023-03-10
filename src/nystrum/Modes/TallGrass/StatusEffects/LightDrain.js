@@ -10,8 +10,8 @@ export class LightDrain extends Base {
     this.processOnlyOnPlayerTurn = true
     this.lifespan = -1
     this.renderer = {
-      color: COLORS.white,
-      background: COLORS.sunset,
+      color: COLORS.sunset,
+      background: COLORS.black,
       character: 'o'
     }
 

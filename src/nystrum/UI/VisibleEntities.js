@@ -17,6 +17,10 @@ const VisibleEntityCard = ({entity}) => {
     <div>
       <EntityIcon renderer={entity.renderer} />
       <EntityName entity={entity} />
+      {/* <div style={{marginLeft: 20}}>
+        <EntityDescription entity={entity} />
+        <StatusEffects actor={entity} />
+      </div> */}
     </div>
   )
 }
@@ -67,7 +71,6 @@ function StatusEffect ({effect}) {
       </span>
       <div style={{marginLeft: 20}}>
         {effect.description}
-        asdasddg sfasfg asdfasdf asfasgrrg
       </div>
     </div>
   )
