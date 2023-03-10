@@ -234,8 +234,8 @@ export default function (engine) {
     renderer: {
       sprite: '',
       character: '@',
-      color: COLORS.base3,
-      background: COLORS.cog2,
+      color: TALL_GRASS_CONSTANT.COLORS.white,
+      background: TALL_GRASS_CONSTANT.COLORS.brown_sugar,
     },
     lightPassable: true,
     name: 'Someone',

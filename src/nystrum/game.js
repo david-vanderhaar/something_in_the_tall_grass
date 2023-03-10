@@ -365,7 +365,7 @@ export class Game {
       const renderedY = pos.y + renderOffsetY
 
       this.FOV.compute(renderedX, renderedY, light.lightRange, (x, y, range, visibility) => {
-      // this.FOV.compute90(playerPosition.x, playerPosition.y, lightRange, 0, (x, y, range, visibility) => {
+      // this.FOV.compute90(renderedX, renderedY, light.lightRange, 0, (x, y, range, visibility) => {
         // console.log(range, visibility);
         const key = Helper.coordsToString({x, y})
         const tile = map[key]

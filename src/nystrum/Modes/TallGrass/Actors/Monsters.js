@@ -65,7 +65,7 @@ const GRUB_STATS = {
         character: 's',
         color: COLORS.flesh1,
         background: COLORS.green,
-        sprite: '',
+        sprite: '',
       },
       durability: 1,
       attackDamage: 1,

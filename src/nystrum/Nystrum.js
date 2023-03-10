@@ -132,7 +132,7 @@ class Nystrum extends React.Component {
 
   render() {
     return (
-      <div className="Nystrum">
+      <div className="Nystrum" style={{backgroundColor: CARTRIDGE.theme.main}}>
         <ReactCSSTransitionGroup
           transitionName="fade"
           transitionAppear={true}

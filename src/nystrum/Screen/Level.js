@@ -14,7 +14,8 @@ import {VisibleEntities, LookedAtEntites} from '../UI/VisibleEntities';
 import Equipment from '../UI/Jacinto/Equipment';
 // import Equipment from '../UI/Equipment';
 
-import Help from '../UI/Jacinto/Help';
+// import Help from '../UI/Jacinto/Help';
+import Help from '../UI/TallGrass/Help';
 
 class Level extends React.Component {
   constructor(props) {

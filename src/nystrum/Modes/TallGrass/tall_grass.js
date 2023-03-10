@@ -26,11 +26,13 @@ export class SomethingInTheTallGrass extends Mode {
 
     this.data = {
       level: 1,
-      finalLevel: 10,
+      finalLevel: 1,
+      // finalLevel: 10,
       finalLevelAmmo: 10,
       finalLevelBattery: 3,
-      finalLevelMonsters: 3,
-      finalLevelMonsterNests: 4,
+      finalLevelMonsters: 1,
+      finalLevelMonsterNests: 0,
+      // finalLevelMonsterNests: 4,
       lootCachesPerLevel: 5,
       lootPerLevel: 3,
       lootList: [
@@ -40,7 +42,7 @@ export class SomethingInTheTallGrass extends Mode {
       ],
     };
 
-    this.game.fovActive = true
+    // this.game.fovActive = true
   }
 
   initialize() {
@@ -53,9 +55,9 @@ export class SomethingInTheTallGrass extends Mode {
     
     if (this.data.level < this.data.finalLevel) {
       this.placePlayerOnEmptyTile()
-      this.placeGeneratorPiece(Helper.getRandomPos(this.game.map).coordinates)
       this.addLootCaches(this.data.lootCachesPerLevel)
       this.addMonsters()
+      this.placeGeneratorPiece(Helper.getRandomPos(this.game.map).coordinates)
     } else {
       const mapCenter = this.mapCenter()
       this.addBaseCamp(mapCenter)
