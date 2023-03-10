@@ -13,6 +13,7 @@ import { Ammo } from '../../Items/Pickups/Ammo';
 import { Gnasher } from '../../Items/Weapons/Gnasher';
 import { Beacon, Lantern } from '../../Items/Environment/Lantern';
 import { Battery } from './Items/Pickups/Battery';
+import { JACINTO_SOUNDS } from '../Jacinto/sounds';
 
 export class SomethingInTheTallGrass extends Mode {
   constructor({ ...args }) {
@@ -23,19 +24,27 @@ export class SomethingInTheTallGrass extends Mode {
       ...TALL_GRASS_CONSTANT.TILE_KEY,
     }
 
-    // this.data = {level: 1, finalLevel: 10};
     this.data = {
       level: 1,
-      finalLevel: 1,
+      finalLevel: 10,
       finalLevelAmmo: 10,
       finalLevelBattery: 3,
       finalLevelMonsters: 3,
-      finalLevelMonsterNests: 4
+      finalLevelMonsterNests: 4,
+      lootCachesPerLevel: 5,
+      lootPerLevel: 3,
+      lootList: [
+        Ammo,
+        Gnasher,
+        Battery,
+      ],
     };
-    // this.game.fovActive = true
+
+    this.game.fovActive = true
   }
 
   initialize() {
+    JACINTO_SOUNDS.ambient_howling.play()
     super.initialize();
     this.game.createEmptyLevel();
     this.generateLevel()
@@ -45,7 +54,7 @@ export class SomethingInTheTallGrass extends Mode {
     if (this.data.level < this.data.finalLevel) {
       this.placePlayerOnEmptyTile()
       this.placeGeneratorPiece(Helper.getRandomPos(this.game.map).coordinates)
-      this.addLootCaches(2)
+      this.addLootCaches(this.data.lootCachesPerLevel)
       this.addMonsters()
     } else {
       const mapCenter = this.mapCenter()
@@ -58,6 +67,9 @@ export class SomethingInTheTallGrass extends Mode {
     }
 
     this.addTallGrass()
+    // const player = this.game.getFirstPlayer()
+    // player.move(player.getPosition())
+    // this.game.draw()
   }
 
   mapCenter() {
@@ -84,7 +96,7 @@ export class SomethingInTheTallGrass extends Mode {
       if (tile) tile.type = 'STEEL_FLOOR'
     })
 
-    const lantern = Beacon({engine: this.game.engine, lightRange: 10, lightDrain: true})
+    const lantern = Beacon({engine: this.game.engine, lightRange: 10})
     lantern.setPosition(origin)
     this.game.placeActorOnMap(lantern)
 
@@ -111,7 +123,7 @@ export class SomethingInTheTallGrass extends Mode {
     })
 
     this.addOvergrowth()
-    this.addLoot()
+    this.addLoot(this.data.lootPerLevel)
   }
 
   addBuilding() {
@@ -203,10 +215,7 @@ export class SomethingInTheTallGrass extends Mode {
 
   placeLootItem(position, itemCreator = null) {
     if (!itemCreator) {
-      itemCreator = Helper.getRandomInArray([
-        Ammo,
-        Gnasher
-      ])
+      itemCreator = Helper.getRandomInArray(this.data.lootList)
     }
 
     const item = itemCreator(this.game.engine)

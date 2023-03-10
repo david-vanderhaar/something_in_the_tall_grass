@@ -1,4 +1,5 @@
 import { clamp } from "../../helper";
+import { JACINTO_SOUNDS } from "../Modes/Jacinto/sounds";
 import { LightDrain } from "../Modes/TallGrass/StatusEffects/LightDrain";
 
 export const Illuminating = superclass => class extends superclass {
@@ -17,17 +18,19 @@ export const Illuminating = superclass => class extends superclass {
 
   incrementLightRange(amount = 1) {
     this.setLightRange(this.lightRange + amount)
+    JACINTO_SOUNDS.light_up.play()
   }
 
   decrementLightRange(amount = 1) {
     this.setLightRange(this.lightRange - amount)
+    JACINTO_SOUNDS.light_drain.play()
   }
 
   initializeDrainEffect() {
     const effect = new LightDrain({
       game: this.game,
       actor: this,
-      stepInterval: 1000
+      stepInterval: 2000
     })
     
     this.game.engine.addStatusEffect(effect)

@@ -20,7 +20,7 @@ export const Lantern = ({engine, lightRange = 8}) => {
   })
 }
 
-export const Beacon = ({engine, lightRange = 8, lightDrain = true}) => {
+export const Beacon = ({engine, lightRange = 8, lightDrain = false}) => {
   return new Light({
     lightRange,
     game: engine.game,

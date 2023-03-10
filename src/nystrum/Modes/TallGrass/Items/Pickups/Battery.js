@@ -1,5 +1,6 @@
 import * as Helper from '../../../../../helper';
 import {RenderedWithPickUpEffects} from '../../../../Entities/index';
+import { JACINTO_SOUNDS } from '../../../Jacinto/sounds';
 import {COLORS} from '../../theme';
 
 export const Battery = (strength = 4) => {
@@ -26,7 +27,15 @@ export const Battery = (strength = 4) => {
   
     if (lights.length === 0) return
   
-    lights.forEach((light) => light.lightRange += strength)
+    lights.forEach((light) => {
+      Helper.range(strength).forEach((i) => {
+        setTimeout(() => {
+          light.incrementLightRange()
+          actor.game.draw()
+        }, 250 * i)
+      })
+      // light.incrementLightRange(strength)
+    })
     item.name = 'used battery'
     item.renderer.background = COLORS.gray
     item.renderer.color = COLORS.orange

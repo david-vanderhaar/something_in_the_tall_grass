@@ -18,6 +18,15 @@ export const JACINTO_SOUND_MANAGER = {
 }
 
 export const JACINTO_SOUNDS = {
+  ambient_howling: createSoundFromSource('/sounds/tall_grass/ambient_loop_howls.mp3', {loop: true, rate: 0.75}),
+  grass_00: createSoundFromSource('/sounds/tall_grass/rustle/grass_00.mp3'),
+  grass_01: createSoundFromSource('/sounds/tall_grass/rustle/grass_01.mp3'),
+  grass_02: createSoundFromSource('/sounds/tall_grass/rustle/grass_02.mp3'),
+  grass_03: createSoundFromSource('/sounds/tall_grass/rustle/grass_03.mp3'),
+  grass_04: createSoundFromSource('/sounds/tall_grass/rustle/grass_04.mp3'),
+  grass_05: createSoundFromSource('/sounds/tall_grass/rustle/grass_05.mp3'),
+  light_up: createSoundFromSource('/sounds/tall_grass/light_up.mp3'),
+  light_drain: createSoundFromSource('/sounds/tall_grass/light_drain.mp3'),
   emergence_01: createSoundFromSource('/sounds/jacinto/EarthDebrisSmallClose01.ogg'),
   emergence_02: createSoundFromSource('/sounds/jacinto/EarthDebrisSmallClose02.ogg'),
   cog_tags: createSoundFromSource('/sounds/jacinto/CogTags.ogg'),
