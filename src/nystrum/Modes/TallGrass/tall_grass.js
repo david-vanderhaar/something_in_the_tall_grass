@@ -12,6 +12,7 @@ import { EmergenceHole, RenderedWithPickUpEffects, Wall } from '../../Entities';
 import { Ammo } from '../../Items/Pickups/Ammo';
 import { Gnasher } from '../../Items/Weapons/Gnasher';
 import { Beacon, Lantern } from '../../Items/Environment/Lantern';
+import { Battery } from './Items/Pickups/Battery';
 
 export class SomethingInTheTallGrass extends Mode {
   constructor({ ...args }) {
@@ -22,7 +23,15 @@ export class SomethingInTheTallGrass extends Mode {
       ...TALL_GRASS_CONSTANT.TILE_KEY,
     }
 
-    this.data = {level: 1, finalLevel: 10};
+    // this.data = {level: 1, finalLevel: 10};
+    this.data = {
+      level: 1,
+      finalLevel: 1,
+      finalLevelAmmo: 10,
+      finalLevelBattery: 3,
+      finalLevelMonsters: 3,
+      finalLevelMonsterNests: 4
+    };
     // this.game.fovActive = true
   }
 
@@ -39,15 +48,20 @@ export class SomethingInTheTallGrass extends Mode {
       this.addLootCaches(2)
       this.addMonsters()
     } else {
-      this.addBaseCamp()
-      this.addMonsters()
+      const mapCenter = this.mapCenter()
+      this.addBaseCamp(mapCenter)
       // place monsters
+      this.addMonsters(this.data.finalLevelMonsters)
       // place monster nests 
-      const mapCenter = {x: Math.round(this.game.mapWidth / 2), y: Math.round(this.game.mapHeight / 2)}
-      this.placePlayerAtPosition(mapCenter)
+      Helper.range(this.data.finalLevelMonsterNests).forEach(() => this.addNest())
+      this.placePlayerAtPosition({x: mapCenter.x + 2, y: mapCenter.y})
     }
 
     this.addTallGrass()
+  }
+
+  mapCenter() {
+    return {x: Math.round(this.game.mapWidth / 2), y: Math.round(this.game.mapHeight / 2)}
   }
 
   update() {
@@ -57,10 +71,29 @@ export class SomethingInTheTallGrass extends Mode {
     }
   }
 
-  addBaseCamp() {
-    // place building in middle of map
+  addBaseCamp(origin) {
+    const clearedPositions = Helper.getPointsWithinRadius(origin, 10)
+    clearedPositions.forEach((position) => {
+      const tile = MapHelper.getTileFromMap({map: this.game.map, position})
+      if (tile) tile.type = Helper.getRandomInArray(['GROUND', 'GROUND_ALT'])
+    })
+
+    const beaconPositions = Helper.getPointsWithinRadius(origin, 6)
+    beaconPositions.forEach((position) => {
+      const tile = MapHelper.getTileFromMap({map: this.game.map, position})
+      if (tile) tile.type = 'STEEL_FLOOR'
+    })
+
+    const lantern = Beacon({engine: this.game.engine, lightRange: 10, lightDrain: true})
+    lantern.setPosition(origin)
+    this.game.placeActorOnMap(lantern)
+
+    const neigbors = Helper.getNeighboringPoints(origin, true)
+    neigbors.forEach((point) => this.placeGeneratorPiece(point))
+
     // place ammo and batteries in building
-    // place beacons at four corners
+    this.addLoot(this.data.finalLevelAmmo, Ammo)
+    this.addLoot(this.data.finalLevelBattery, Battery)
   }
 
   addLootCaches(numberOfCaches) {
@@ -87,13 +120,15 @@ export class SomethingInTheTallGrass extends Mode {
     const pos = Helper.stringToCoords(randomKey)
     const rooms = Helper.getRandomIntInclusive(1, 2)
     const roomSize = Helper.getRandomIntInclusive(2, 4)
-    BuildingGenerator.generate(this.game.map, pos.x, pos.y, rooms, roomSize);
+    return BuildingGenerator.generate(this.game.map, pos.x, pos.y, rooms, roomSize);
   }
 
-  addBeacon() {
-    const keys = this.getEmptyGrassTileKeys()
-    const randomKey = Helper.getRandomInArray(keys)
-    const origin = Helper.stringToCoords(randomKey)
+  addBeacon(origin = null) {
+    if (origin === null) {
+      const keys = this.getEmptyGrassTileKeys()
+      const randomKey = Helper.getRandomInArray(keys)
+      origin = Helper.stringToCoords(randomKey)
+    }
 
     const positions = Helper.getPointsWithinRadius(origin, 4)
     positions.forEach((position) => {
@@ -158,20 +193,21 @@ export class SomethingInTheTallGrass extends Mode {
     })
   }
 
-  addLoot() {
+  addLoot(amountOfLoot = 1, itemCreator = null) {
     const keys = this.getEmptyTileKeysByTags(['LOOT'])
-    const amountOfLoot = 2
     const randomSelection = Helper.getNumberOfItemsInArray(amountOfLoot, keys)
     randomSelection.forEach((key) => {
-      this.placeLootItem(Helper.stringToCoords(key))
+      this.placeLootItem(Helper.stringToCoords(key), itemCreator)
     })
   }
 
-  placeLootItem(position) {
-    const itemCreator = Helper.getRandomInArray([
-      Ammo,
-      Gnasher
-    ])
+  placeLootItem(position, itemCreator = null) {
+    if (!itemCreator) {
+      itemCreator = Helper.getRandomInArray([
+        Ammo,
+        Gnasher
+      ])
+    }
 
     const item = itemCreator(this.game.engine)
     item.setPosition(position)
@@ -252,6 +288,7 @@ export class SomethingInTheTallGrass extends Mode {
       baseDescription: 'a component that powers up our base camp generator',
       pos: position,
       passable: true,
+      lightPassable: true,
       renderer: {
         character: Helper.getRandomInArray(['a', 'b', 'c', 'd']),
         sprite: Helper.getRandomInArray(['', '', '', '',]),
@@ -313,6 +350,8 @@ export class SomethingInTheTallGrass extends Mode {
   }
 
   goToNextLevel() {
+    if (this.data.level >= this.data.finalLevel) return
+
     this.destroyAllMonsters()
     this.nextLevel();
     this.initialize();

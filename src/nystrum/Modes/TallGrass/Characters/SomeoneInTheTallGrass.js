@@ -243,7 +243,7 @@ export default function (engine) {
     durability,
     baseRangedAccuracy: 0,
     baseRangedDamage: 0,
-    attackDamage: 0,
+    attackDamage: 1,
     equipment: Constant.EQUIPMENT_LAYOUTS.human(),
     game: engine.game,
     presentingUI: true,

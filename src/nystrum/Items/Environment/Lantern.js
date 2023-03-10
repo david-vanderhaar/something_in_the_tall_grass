@@ -20,13 +20,14 @@ export const Lantern = ({engine, lightRange = 8}) => {
   })
 }
 
-export const Beacon = ({engine, lightRange = 8}) => {
+export const Beacon = ({engine, lightRange = 8, lightDrain = true}) => {
   return new Light({
     lightRange,
     game: engine.game,
     name: 'beacon',
     passable: false,
     lightPassable: true,
+    lightDrain: lightDrain,
     equipmentType: Constant.EQUIPMENT_TYPES.HAND,
     renderer: {
       character: 'o',

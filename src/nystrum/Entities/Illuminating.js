@@ -2,12 +2,13 @@ import { clamp } from "../../helper";
 import { LightDrain } from "../Modes/TallGrass/StatusEffects/LightDrain";
 
 export const Illuminating = superclass => class extends superclass {
-  constructor({ lightRange = 8, lightColor = '#f9d091', ...args }) {
+  constructor({ lightRange = 8, lightColor = '#f9d091', lightDrain = true, ...args }) {
     super({ ...args });
     this.entityTypes = this.entityTypes.concat('ILLUMINATING');
     this.lightRange = lightRange
     this.lightColor = lightColor
-    this.initializeDrainEffect()
+    this.lightDrain = lightDrain
+    if (lightDrain) this.initializeDrainEffect()
   }
 
   setLightRange(value) {
