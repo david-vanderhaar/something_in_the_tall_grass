@@ -18,6 +18,10 @@ export function addAbomination (mode, pos) {
   addGrubToMapWithStats(mode, pos, GRUB_STATS.abomination())
 }
 
+export function addCamoCritter (mode, pos) {
+  addGrubToMapWithStats(mode, pos, GRUB_STATS.camoCritter())
+}
+
 export function addSpitter (mode, pos) {
   addGrubToMapWithStats(mode, pos, GRUB_STATS.spitter())
 }
@@ -35,7 +39,7 @@ const GRUB_STATS = {
     return {
       name: 'adolescent',
       renderer: {
-        character: Helper.getRandomInArray(['w']),
+        character: Helper.getRandomInArray(['a']),
         color: COLORS.flesh1,
         background: COLORS.flesh3,
         sprite: '',
@@ -46,6 +50,36 @@ const GRUB_STATS = {
       baseDescriptors: ['gutteral chirps and bloodthirst keep you at bay.'],
       behaviors: [
         new Behaviors.MoveTowardsEnemy({repeat: 5}),
+        new Behaviors.Telegraph({repeat: 1, attackPattern: Constant.CLONE_PATTERNS.clover}),
+        new Behaviors.ExecuteAttack({
+          repeat: 1,
+          extraActionParams: {
+            onSuccess: () => {
+              Helper.getRandomInArray([
+                JACINTO_SOUNDS.wretch_melee_01,
+                JACINTO_SOUNDS.wretch_melee_02,
+                JACINTO_SOUNDS.wretch_melee_03,
+              ]).play()
+            }
+          }
+        }),
+      ],
+    }
+  },
+  camoCritter: () => {
+    return {
+      name: 'camo critter',
+      renderer: {
+        character: 'c',
+        color: 'transparent',
+        background: 'transparent',
+        sprite: '',
+      },
+      durability: 2,
+      attackDamage: 2,
+      baseDescription: 'you\'ve never seen it, but you\'ll feel it.',
+      behaviors: [
+        new Behaviors.MoveTowardsEnemy({repeat: 1}),
         new Behaviors.Telegraph({repeat: 1, attackPattern: Constant.CLONE_PATTERNS.clover}),
         new Behaviors.ExecuteAttack({
           repeat: 1,
@@ -89,6 +123,7 @@ const GRUB_STATS = {
     return {
       name: 'grass hopper',
       baseDescription: 'often hidden in plain sight, clawing at passers-by.',
+      baseDescriptors: ['needless to say, the C.C.C reccomends avoiding the deep grass altogether.'],
       renderer: {
         character: 'h',
         color: COLORS.flesh1,
