@@ -18,6 +18,10 @@ export function addAbomination (mode, pos) {
   addGrubToMapWithStats(mode, pos, GRUB_STATS.abomination())
 }
 
+export function addAdult (mode, pos) {
+  addGrubToMapWithStats(mode, pos, GRUB_STATS.adult())
+}
+
 export function addCamoCritter (mode, pos) {
   addGrubToMapWithStats(mode, pos, GRUB_STATS.camoCritter())
 }
@@ -100,6 +104,43 @@ const GRUB_STATS = {
                 JACINTO_SOUNDS.wretch_melee_01,
                 JACINTO_SOUNDS.wretch_melee_02,
                 JACINTO_SOUNDS.wretch_melee_03,
+              ]).play()
+            }
+          }
+        }),
+      ],
+    }
+  },
+  adult: () => {
+    return {
+      name: 'adult',
+      renderer: {
+        character: 'A',
+        color: COLORS.flesh3,
+        background: COLORS.ebony,
+        sprite: '',
+      },
+      durability: 8,
+      attackDamage: 2,
+      baseDescription: 'a fully-grown, myth of Layoria.',
+      baseDescriptors: ['the grass is ingrown into its skin'],
+      onDestroy: (actor) => {
+        const position = actor.getPosition()
+        const allPositions = Helper.getPointsWithinRadius(position, 5)
+        const positions = Helper.getNumberOfItemsInArray(20, allPositions)
+        positions.forEach((pos) => actor.game.mode.placeTallGrass(pos))
+      },
+      behaviors: [
+        new Behaviors.MoveTowardsEnemy({repeat: 1}),
+        new Behaviors.Telegraph({repeat: 1, attackPattern: Constant.CLONE_PATTERNS.clover}),
+        new Behaviors.ExecuteAttack({
+          repeat: 1,
+          extraActionParams: {
+            onSuccess: () => {
+              Helper.getRandomInArray([
+                JACINTO_SOUNDS.scion_melee_01,
+                JACINTO_SOUNDS.scion_melee_02,
+                JACINTO_SOUNDS.scion_melee_03,
               ]).play()
             }
           }
