@@ -23,7 +23,7 @@ export class MultiTargetRangedAttack extends Base {
       game: this.game,
       fromPosition: this.actor.getPosition(),
       targetPositions: this.multiTargetRangedAttackHits,
-      backgroundColorGradient: [COLORS.base1, COLORS.base3],
+      backgroundColorGradient: [COLORS.green, COLORS.cyan],
       colorGradient: [COLORS.base3, COLORS.base3],
     })
 
@@ -32,6 +32,7 @@ export class MultiTargetRangedAttack extends Base {
         life: 5,
         pos: {...targetPos},
         direction: {x: 0, y: 0},
+        character: '-'
       })
     })
     await emitter.start()
