@@ -39,3 +39,37 @@ export const Machete = (engine, position = {x: 1, y: 1}) => new Weapon({
     background: TALL_GRASS_COLORS.gray,
   },
 })
+
+export const CombatBaton = (engine, position = {x: 1, y: 1}) => new Weapon({
+  game: engine.game,
+  name: 'C.C.C. combat baton',
+  baseDescription: 'normally used for crowd control in densly populated area.',
+  passable: true,
+  lightPassable: true,
+  pos: position,
+  attackDamage: 3,
+  equipmentType: Constant.EQUIPMENT_TYPES.HAND,
+  renderer: {
+    character: 'b',
+    sprite: '',
+    color: TALL_GRASS_COLORS.black,
+    background: TALL_GRASS_COLORS.brown_sugar,
+  },
+})
+
+export const Katana = (engine, position = {x: 1, y: 1}) => new Weapon({
+  game: engine.game,
+  name: 'ancient katana',
+  baseDescription: 'hmm, this could work.',
+  passable: true,
+  lightPassable: true,
+  pos: position,
+  attackDamage: 6,
+  equipmentType: Constant.EQUIPMENT_TYPES.HAND,
+  renderer: {
+    character: 'k',
+    sprite: 'k',
+    color: TALL_GRASS_COLORS.red,
+    background: TALL_GRASS_COLORS.black,
+  },
+})

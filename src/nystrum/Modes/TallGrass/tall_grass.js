@@ -13,8 +13,8 @@ import { Ammo } from '../../Items/Pickups/Ammo';
 import { Beacon, Lantern } from '../../Items/Environment/Lantern';
 import { Battery } from './Items/Pickups/Battery';
 import { JACINTO_SOUNDS } from '../Jacinto/sounds';
-import { Revolver, Shotgun } from './Items/Weapons/Revolver';
-import { Knife, Machete } from './Items/Weapons/Melee';
+import { Pistol, Revolver, Rifle, Shotgun } from './Items/Weapons/Revolver';
+import { CombatBaton, Katana, Knife, Machete } from './Items/Weapons/Melee';
 import { Berries, Brambles } from './Items/Environment/Brambles';
 import { GlowStick, SmallGlowStick, SuperGlowStick } from './Items/Pickups/GlowSticks';
 import { Grenade } from './Items/Weapons/Grenade';
@@ -61,8 +61,18 @@ export class SomethingInTheTallGrass extends Mode {
         Knife,
         Knife,
         Revolver,
+        Revolver,
         Machete,
+        Machete,
+        CombatBaton,
+        CombatBaton,
+        Katana,
+        Rifle,
+        Pistol,
+        Pistol,
         Shotgun,
+        Shotgun,
+        Grenade,
         Grenade,
       ],
       lootCacheList: [
