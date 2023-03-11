@@ -3,7 +3,7 @@ import { Howl } from 'howler';
 const createSoundFromSource = (relativePath, howlerOptions = {}) => {
   return new Howl({
     src: [window.PUBLIC_URL + relativePath],
-    volume: 0.3,
+    volume: 0.2,
     loop: false,
     ...howlerOptions,
   })
@@ -18,7 +18,7 @@ export const JACINTO_SOUND_MANAGER = {
 }
 
 export const JACINTO_SOUNDS = {
-  ambient_howling: createSoundFromSource('/sounds/tall_grass/ambient_loop_howls.mp3', {loop: true, rate: 0.75, volume: 0.15}),
+  ambient_howling: createSoundFromSource('/sounds/tall_grass/ambient_loop_howls.mp3', {loop: true, rate: 0.75, volume: 0.1}),
   sac_01: createSoundFromSource('/sounds/tall_grass/monster/sac_01.ogg'),
   sac_02: createSoundFromSource('/sounds/tall_grass/monster/sac_02.ogg'),
   sac_03: createSoundFromSource('/sounds/tall_grass/monster/sac_03.ogg'),

@@ -287,6 +287,15 @@ export const CLONE_PATTERNS = {
       { x: 0, y: 0, taken: false, },
     ]
   },
+  tri_force: {
+    x_offset: 0,
+    y_offset: 0,
+    positions: [
+      { x: 0, y: 0, taken: false, },
+      { x: -1, y: -1, taken: false, },
+      { x: 1, y: -1, taken: false, },
+    ]
+  },
   spread: {
     x_offset: 1,
     y_offset: 0,

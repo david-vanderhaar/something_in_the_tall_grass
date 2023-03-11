@@ -2,7 +2,7 @@ import React from 'react';
 import { JACINTO_SOUND_MANAGER } from '../../Modes/Jacinto/sounds';
 import HelpContent from './HelpContent';
 
-let masterVolume = 30
+let masterVolume = 20
 
 function Help(props) {
   React.useLayoutEffect(() => {

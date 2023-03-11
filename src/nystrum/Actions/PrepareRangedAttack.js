@@ -87,6 +87,8 @@ export class PrepareRangedAttack extends Base {
     const pos = this.actor.getPosition();
     const range = this.actor.getAttackRange();
     const equippedWeapon = this.actor.getItemInSlot(EQUIPMENT_TYPES.HAND)
+    if (!equippedWeapon) return {success: false, alternative: null}
+    if (!equippedWeapon.entityTypes.includes('RANGED_ATTACKING')) return {success: false, alternative: null}
 
     const pathAnimations = [];
     const rangeAnims = []

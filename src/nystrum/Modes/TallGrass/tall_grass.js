@@ -14,6 +14,8 @@ import { Gnasher } from '../../Items/Weapons/Gnasher';
 import { Beacon, Lantern } from '../../Items/Environment/Lantern';
 import { Battery } from './Items/Pickups/Battery';
 import { JACINTO_SOUNDS } from '../Jacinto/sounds';
+import { Revolver, Shotgun } from './Items/Weapons/Revolver';
+import { Knife, Machete } from './Items/Weapons/Melee';
 
 export class SomethingInTheTallGrass extends Mode {
   constructor({ ...args }) {
@@ -26,19 +28,22 @@ export class SomethingInTheTallGrass extends Mode {
 
     this.data = {
       level: 1,
-      finalLevel: 1,
-      // finalLevel: 10,
+      // finalLevel: 1,
+      finalLevel: 10,
       finalLevelAmmo: 10,
       finalLevelBattery: 3,
       finalLevelMonsters: 1,
       finalLevelMonsterNests: 0,
       // finalLevelMonsterNests: 4,
       lootCachesPerLevel: 5,
-      lootPerLevel: 3,
+      lootPerLevel: 4,
       lootList: [
         Ammo,
-        Gnasher,
         Battery,
+        Revolver,
+        Shotgun,
+        Knife,
+        Machete,
       ],
     };
 
