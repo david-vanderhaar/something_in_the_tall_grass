@@ -34,7 +34,7 @@ export class SomethingInTheTallGrass extends Mode {
       finalLevelAmmo: 10,
       finalLevelBattery: 2,
       finalLevelMonsters: 6,
-      finalLevelMonsterNests: 3,
+      finalLevelMonsterNests: 2,
       monstersPerLevel: [2, 6],
       lootCachesPerLevel: [1, 5],
       lootPerLevel: [2, 8],
