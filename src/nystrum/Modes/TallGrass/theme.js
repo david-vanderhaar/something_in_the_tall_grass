@@ -1,7 +1,7 @@
 export const COLORS = {
   main: '#16161d',
-  accent: '#f9d091',
-  text: '#ec9c5d',
+  accent: '#ec9c5d',
+  text: '#f9d091',
   white: '#eeeeee',
   sunset: '#f9d091',
   sandy_brown: '#ec9c5d',
