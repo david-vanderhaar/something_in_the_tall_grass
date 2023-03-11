@@ -22,6 +22,10 @@ export function addSpitter (mode, pos) {
   addGrubToMapWithStats(mode, pos, GRUB_STATS.spitter())
 }
 
+export function addHider (mode, pos) {
+  addGrubToMapWithStats(mode, pos, GRUB_STATS.hider())
+}
+
 export function addRandom (mode, pos) {
   addRandomBasicGrubToMap(mode, pos)
 }
@@ -61,6 +65,7 @@ const GRUB_STATS = {
   spitter: () => {
     return {
       name: 'spitter',
+      baseDescription: 'green pus drips from its maw. its belly inflates.',
       renderer: {
         character: 's',
         color: COLORS.flesh1,
@@ -80,6 +85,43 @@ const GRUB_STATS = {
       },
     }
   },
+  hider: () => {
+    return {
+      name: 'grass hopper',
+      baseDescription: 'often hidden in plain sight, clawing at passers-by.',
+      renderer: {
+        character: 'h',
+        color: COLORS.flesh1,
+        background: COLORS.sunset,
+        sprite: '',
+      },
+      durability: 1,
+      attackDamage: 1,
+      behaviors: [
+        new Behaviors.MoveTowardsEnemy({repeat: 5}),
+        new Behaviors.Telegraph({repeat: 1, attackPattern: Constant.CLONE_PATTERNS.clover}),
+        new Behaviors.ExecuteAttack({
+          repeat: 1,
+          extraActionParams: {
+            onSuccess: () => {
+              Helper.getRandomInArray([
+                JACINTO_SOUNDS.wretch_melee_01,
+                JACINTO_SOUNDS.wretch_melee_02,
+                JACINTO_SOUNDS.wretch_melee_03,
+              ]).play()
+            }
+          }
+        }),
+        new Behaviors.MoveTowardsEntityInRangeByAttr({
+          repeat: 3,
+          range: 5,
+          attribute: 'name',
+          attributeValue: 'tall grass',
+        }),
+        new Behaviors.Wait({repeat: 3}),
+      ],
+    }
+  },
 };
 
 const createBaseGrubStats = (mode, pos) => {
@@ -89,14 +131,6 @@ const createBaseGrubStats = (mode, pos) => {
     faction: 'MONSTER',
     enemyFactions: ['PEOPLE'],
     equipment: Constant.EQUIPMENT_LAYOUTS.gear(),
-    // onDestroy: (actor) => {
-    //   const chance = Math.random();
-    //   if (chance <= 0.05) {
-    //     mode.addAmmoLoot(actor.getPosition());
-    //   } else if (chance <= 0.1) {
-    //     mode.addGrenadeLoot(actor.getPosition());
-    //   }
-    // },
   }
 }
 

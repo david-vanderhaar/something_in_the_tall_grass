@@ -77,7 +77,8 @@ export default function (engine) {
         message: 'you use the hande crank. the light burns brighter.',
         game: engine.game,
         actor,
-        energyCost: actor.speed,
+        energyCost: Math.ceil(actor.speed / 100 / 2) * Constant.ENERGY_THRESHOLD,
+        // energyCost: Constant.ENERGY_THRESHOLD * ,
         onSuccess: () => {
           lantern.incrementLightRange()
         },
@@ -241,7 +242,7 @@ export default function (engine) {
     lightPassable: true,
     name: 'field agent',
     baseDescription: 'you, a C.C.C member stationed in the Layoria region.',
-    speed: Constant.ENERGY_THRESHOLD * 5,
+    speed: Constant.ENERGY_THRESHOLD * 3,
     durability,
     baseRangedAccuracy: 0,
     baseRangedDamage: 0,

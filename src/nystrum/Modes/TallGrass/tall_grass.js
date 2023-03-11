@@ -257,10 +257,10 @@ export class SomethingInTheTallGrass extends Mode {
 
   addMonsters(amount = 1) {
     Helper.range(amount).forEach((index) => 
-      MonsterActors.addSpitter(
+      MonsterActors.addRandom(
+      // MonsterActors.addHider(
         this, 
-        Helper.getRandomPos(this.game.map).coordinates
-        )
+        Helper.getRandomPos(this.game.map).coordinates)
       )
   }
 

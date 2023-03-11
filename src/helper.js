@@ -171,6 +171,7 @@ export const filterEntitiesByAttr = (entites, attr, value) => {
 
 export const getEntitiesByPosition = ({game, position}) => {
   const tile = getTileAtPosition(game, position)
+  if (!tile) return []
   return tile.entities
 }
 
