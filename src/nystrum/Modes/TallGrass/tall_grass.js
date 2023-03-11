@@ -16,6 +16,7 @@ import { JACINTO_SOUNDS } from '../Jacinto/sounds';
 import { Revolver, Shotgun } from './Items/Weapons/Revolver';
 import { Knife, Machete } from './Items/Weapons/Melee';
 import { Brambles } from './Items/Environment/Brambles';
+import { GlowStick } from './Items/Pickups/GlowSticks';
 
 export class SomethingInTheTallGrass extends Mode {
   constructor({ ...args }) {
@@ -44,11 +45,12 @@ export class SomethingInTheTallGrass extends Mode {
         Shotgun,
         Knife,
         Machete,
+        GlowStick,
       ],
       bramblePatchAmount: 5,
     };
 
-    // this.game.fovActive = true
+    this.game.fovActive = true
   }
 
   initialize() {

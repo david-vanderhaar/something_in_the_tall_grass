@@ -19,7 +19,7 @@ export class LightDrain extends Base {
     this.onStep = (timePassed) => {
       if (!this.actor.entityTypes.includes('ILLUMINATING')) return
 
-      this.actor.decrementLightRange()
+      if (this.actor.lightRange > 1) this.actor.decrementLightRange()
     }
   }
 }

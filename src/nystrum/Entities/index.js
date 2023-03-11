@@ -300,3 +300,5 @@ export const Light = pipe(
   Equipable,
   Illuminating,
 )(Entity)
+
+export const GlowingPickup = pipe(Illuminating)(RenderedWithPickUpEffects)

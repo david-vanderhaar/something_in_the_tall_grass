@@ -36,6 +36,7 @@ import { Lantern } from '../../../Items/Environment/Lantern';
 import { Revolver } from '../Items/Weapons/Revolver';
 import { Battery } from '../Items/Pickups/Battery';
 import { LayGrass } from '../StatusEffects/LayGrass';
+import { GlowStick } from '../Items/Pickups/GlowSticks';
 
 
 export default function (engine) {
@@ -253,11 +254,12 @@ export default function (engine) {
   })
 
   // add default items to container
-  const primary = Revolver({engine, position: actor.getPosition()});
+  const primary = Revolver(engine, actor.getPosition());
   const lantern = Lantern({engine, lightRange: 6})
   // lantern.setPosition(actor.getPosition())
-  const ammo = Array(10).fill('').map(() => Ammo(engine));
+  const ammo = Array(2).fill('').map(() => Ammo(engine));
   const grenades = Array(2).fill('').map(() => Grenade(engine, 6));
+  const glowSticks = Array(2).fill('').map(() => GlowStick(engine, actor.getPosition()))
   const batteries = Array(2).fill('').map(() => Battery());
   actor.container = [
     new ContainerSlot({
@@ -271,6 +273,10 @@ export default function (engine) {
     new ContainerSlot({
       itemType: batteries[0].name,
       items: batteries,
+    }),
+    new ContainerSlot({
+      itemType: glowSticks[0].name,
+      items: glowSticks,
     }),
   ]
 

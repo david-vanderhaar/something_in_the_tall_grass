@@ -13,7 +13,7 @@ export const Illuminating = superclass => class extends superclass {
   }
 
   setLightRange(value) {
-    this.lightRange = clamp(value, 1, 10)
+    this.lightRange = clamp(value, 0, 10)
   }
 
   incrementLightRange(amount = 1) {
