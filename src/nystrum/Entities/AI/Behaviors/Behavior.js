@@ -38,6 +38,8 @@ export default class Behavior {
       actor: this.actor,
       interrupt: this.interrupted(),
       energyCost: 100,
+      // processDelay: 10,
+      processDelay: 25 / this.actor.game.engine.actors.length,
     }
   }
 

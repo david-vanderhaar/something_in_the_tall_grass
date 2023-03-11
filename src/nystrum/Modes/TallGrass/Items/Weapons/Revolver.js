@@ -7,7 +7,7 @@ import {COLORS as TALL_GRASS_COLORS} from '../../../TallGrass/theme';
 export const Revolver = (engine, position = {x: 1, y: 1}) => new RangedWeapon({
   game: engine.game,
   name: 'revolver',
-  basedescription: 'an old revolver. you didn\'t think these were even still issued to field members anymore.',
+  baseDescription: 'an old revolver. you didn\'t think these were even still issued to field members anymore.',
   passable: true,
   lightPassable: true,
   attackRange: 4,
@@ -37,7 +37,7 @@ export const Revolver = (engine, position = {x: 1, y: 1}) => new RangedWeapon({
 export const Shotgun = (engine, position = {x: 1, y: 1}) => new RangedWeapon({
   game: engine.game,
   name: 'shotgun',
-  basedescription: 'a pump-action shotgun. you were really hoping for an auto-loader.',
+  baseDescription: 'a pump-action shotgun. you were really hoping for an auto-loader.',
   passable: true,
   lightPassable: true,
   attackRange: 6,

@@ -44,6 +44,16 @@ export default function (engine) {
   // define keymap
   const keymap = (engine, actor) => {
 
+    function updateLookedAt() {
+      const targets = Helper.getEntitiesByPosition({
+        game: engine.game,
+        position: actor.getPosition()
+      })
+
+      const targetExcludingSelf = targets.filter((target) => target.id !== actor.id) 
+      engine.game.entityLog.setLookedAt(targetExcludingSelf)
+    }
+
     function stepOnGrass () {
       const entities = Helper.getEntitiesByPositionByAttr({
         game: engine.game,
@@ -62,6 +72,11 @@ export default function (engine) {
         })
         engine.addStatusEffect(effect);
       })
+    }
+
+    function handleMoveSuccess() {
+      stepOnGrass()
+      updateLookedAt()
     }
 
     return {
@@ -103,7 +118,7 @@ export default function (engine) {
           game: engine.game,
           actor,
           energyCost: Constant.ENERGY_THRESHOLD,
-          onSuccess: stepOnGrass
+          onSuccess: handleMoveSuccess,
         });
       },
       's,ArrowDown': () => {
@@ -116,7 +131,7 @@ export default function (engine) {
           game: engine.game,
           actor,
           energyCost: Constant.ENERGY_THRESHOLD,
-          onSuccess: stepOnGrass
+          onSuccess: handleMoveSuccess,
         });
       },
       'a,ArrowLeft': () => {
@@ -129,7 +144,7 @@ export default function (engine) {
           game: engine.game,
           actor,
           energyCost: Constant.ENERGY_THRESHOLD,
-          onSuccess: stepOnGrass
+          onSuccess: handleMoveSuccess,
         });
       },
       'd,ArrowRight': () => {
@@ -142,7 +157,7 @@ export default function (engine) {
           game: engine.game,
           actor,
           energyCost: Constant.ENERGY_THRESHOLD,
-          onSuccess: stepOnGrass
+          onSuccess: handleMoveSuccess,
         });
       },
       l: () => new PrepareLooking({

@@ -256,7 +256,7 @@ export class Engine {
       })
       this.game.placeActorOnMap(particle);
       this.game.draw();
-      await Helper.delay(100);
+      await Helper.delay(25);
       this.game.removeActorFromMap(particle);
       particle.update(1);
       this.game.draw();
@@ -272,8 +272,9 @@ export class Engine {
           this.game.placeActorOnMap(particle);
         })
         this.game.draw();
-        const delay = Math.max(time * 100, 12)
-        await Helper.delay(delay);
+        // const delay = Math.max(time * 100, 12)
+        // await Helper.delay(delay);
+        await Helper.delay(10);
         action.particles.forEach((particle) => {
           this.game.removeActorFromMap(particle);
           particle.update(1);
