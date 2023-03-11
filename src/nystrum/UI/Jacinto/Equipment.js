@@ -175,7 +175,7 @@ const EquipmentCard = (props) => {
     stats.push({
       name: 'base melee damage',
       abbreviatedName: 'melee dmg',
-      value: item['attackDamage'],
+      value: item['attackDamage'] + player['attackDamage'],
       renderer: STAT_RENDERERS.meleeDamage,
     })
   }
