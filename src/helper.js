@@ -7,6 +7,7 @@ export const delay = (timeDelayed = 100) => {
 }
 
 export const range = (number) => [...Array(number).keys()]
+export const duplicate = (number, item) => [...Array(number).fill('').map(item)]
 
 export const clamp = (value, min, max) => {
   return Math.min(Math.max(value, min), max);

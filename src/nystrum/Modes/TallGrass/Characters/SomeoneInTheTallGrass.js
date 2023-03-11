@@ -274,9 +274,9 @@ export default function (engine) {
 
   // add default items to container
   const primary = Revolver(engine, actor.getPosition());
-  const lantern = Lantern({engine, lightRange: 1})
+  const lantern = Lantern({engine, lightRange: 6})
   // lantern.setPosition(actor.getPosition())
-  const ammo = Array(2).fill('').map(() => Ammo(engine));
+  const ammo = Helper.duplicate(3, () => Ammo(engine))
   const grenades = Array(2).fill('').map(() => Grenade(engine, 6));
   const glowSticks = Array(2).fill('').map(() => GlowStick(engine, actor.getPosition()))
   const batteries = Array(2).fill('').map(() => Battery());

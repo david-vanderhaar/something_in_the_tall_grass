@@ -16,7 +16,7 @@ import { JACINTO_SOUNDS } from '../Jacinto/sounds';
 import { Revolver, Shotgun } from './Items/Weapons/Revolver';
 import { Knife, Machete } from './Items/Weapons/Melee';
 import { Berries, Brambles } from './Items/Environment/Brambles';
-import { GlowStick } from './Items/Pickups/GlowSticks';
+import { GlowStick, SmallGlowStick, SuperGlowStick } from './Items/Pickups/GlowSticks';
 
 export class SomethingInTheTallGrass extends Mode {
   constructor({ ...args }) {
@@ -26,35 +26,51 @@ export class SomethingInTheTallGrass extends Mode {
       ...JACINTO_CONSTANT.TILE_KEY,
       ...TALL_GRASS_CONSTANT.TILE_KEY,
     }
-
     this.data = {
       level: 1,
       // finalLevel: 1,
-      finalLevel: 10,
+      finalLevel: 5,
       finalLevelAmmo: 10,
-      finalLevelBattery: 3,
-      finalLevelMonsters: 1,
-      // finalLevelMonsterNests: 0,
-      finalLevelMonsterNests: 0,
-      monstersPerLevel: 5,
-      lootCachesPerLevel: 5,
-      lootPerLevel: 4,
+      finalLevelBattery: 2,
+      finalLevelMonsters: 6,
+      finalLevelMonsterNests: 3,
+      monstersPerLevel: [2, 10],
+      lootCachesPerLevel: [1, 5],
+      lootPerLevel: [2, 8],
       lootList: [
         Ammo,
+        Ammo,
+        Ammo,
+        Ammo,
+        Ammo,
+        Ammo,
+        Ammo,
+        Ammo,
+        Ammo,
+        Ammo,
+        SmallGlowStick,
+        SmallGlowStick,
+        SmallGlowStick,
+        SmallGlowStick,
+        SuperGlowStick,
+        SuperGlowStick,
         Battery,
-        Revolver,
-        Shotgun,
+        Battery,
         Knife,
+        Knife,
+        Revolver,
         Machete,
-        GlowStick,
+        Shotgun,
       ],
       lootCacheList: [
+        this.addBuilding.bind(this),
+        this.addBuilding.bind(this),
         this.addBuilding.bind(this),
         this.addBeacon.bind(this),
         this.addNest.bind(this),
       ],
-      bramblePatchAmount: 8,
-      berryPatchAmount: 3,
+      bramblePatchAmount: [1, 8],
+      berryPatchAmount: [0, 4],
     };
 
     // this.game.fovActive = true
@@ -71,8 +87,10 @@ export class SomethingInTheTallGrass extends Mode {
     if (this.data.level < this.data.finalLevel) {
       this.placePlayerOnEmptyTile()
       // this.placePlayerAtPosition({x: 1, y: 8})
-      this.addLootCaches(this.data.lootCachesPerLevel)
-      this.addMonsters(this.data.monstersPerLevel)
+      this.addLootCaches(Helper.getRandomIntInclusive(...this.data.lootCachesPerLevel))
+      this.addOvergrowth()
+      this.addLoot(Helper.getRandomIntInclusive(...this.data.lootPerLevel))
+      this.addMonsters(Helper.getRandomIntInclusive(...this.data.monstersPerLevel))
       this.placeGeneratorPiece(Helper.getRandomPos(this.game.map).coordinates)
     } else {
       const mapCenter = this.mapCenter()
@@ -130,9 +148,6 @@ export class SomethingInTheTallGrass extends Mode {
       const cacheGenerator = Helper.getRandomInArray(this.data.lootCacheList)
       cacheGenerator()
     })
-
-    this.addOvergrowth()
-    this.addLoot(this.data.lootPerLevel)
   }
 
   addBuilding() {
@@ -206,7 +221,7 @@ export class SomethingInTheTallGrass extends Mode {
 
   addBrambles() {
     const keys = this.getEmptyTileKeysByTags(['BRAMBLES'])
-    const amount = Helper.getRandomIntInclusive(0, this.data.bramblePatchAmount)
+    const amount = Helper.getRandomIntInclusive(...this.data.bramblePatchAmount)
     const randomSelection = Helper.getNumberOfItemsInArray(amount, keys)
     randomSelection.forEach((key) => {
       this.addBramblePatch(Helper.stringToCoords(key))
@@ -235,7 +250,7 @@ export class SomethingInTheTallGrass extends Mode {
  
   addBerries() {
     const keys = this.getEmptyTileKeysByTags(['BERRIES'])
-    const amount = Helper.getRandomIntInclusive(0, this.data.berryPatchAmount)
+    const amount = Helper.getRandomIntInclusive(...this.data.berryPatchAmount)
     const randomSelection = Helper.getNumberOfItemsInArray(amount, keys)
     randomSelection.forEach((key) => {
       this.addBerryPatch(Helper.stringToCoords(key))

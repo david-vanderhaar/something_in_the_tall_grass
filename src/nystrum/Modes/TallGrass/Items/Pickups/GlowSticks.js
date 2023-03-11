@@ -2,15 +2,15 @@ import * as Helper from '../../../../../helper';
 import {GlowingPickup} from '../../../../Entities/index';
 import {COLORS} from '../../theme';
 
-export const GlowStick = (engine, position) => {
+export const GlowStick = (engine, position, lightRange = 3) => {
   let isUsed = false
 
   function activateLight(actor, item) {
     if (isUsed) return
-    item.incrementLightRange(3)
+    item.incrementLightRange(lightRange)
     item.name = 'used glow stick'
     item.renderer.color = COLORS.gray
-    item.addDescriptor('a used battery, not much use anymore.')
+    item.addDescriptor('a cracked glow stick, not much use anymore.')
     isUsed = true
   }
 
@@ -24,10 +24,13 @@ export const GlowStick = (engine, position) => {
     pos: position,
     renderer: {
       character: 'i',
-      sprite: '',
+      sprite: '',
       color: COLORS.white,
       background: 'transparent',
     },
     dropEffects: [activateLight]
   });
 }
+
+export const SmallGlowStick = (engine, position) => GlowStick(engine, position, 3)
+export const SuperGlowStick = (engine, position) => GlowStick(engine, position, 10)
