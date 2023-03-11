@@ -315,6 +315,7 @@ export class SomethingInTheTallGrass extends Mode {
       durability: 1,
       defense: 0,
       name: 'tall grass',
+      baseDescription: 'grass in the Layoria region is known for its thick outer shell... and for the things that call it home.',
       passable: true,
       lightPassable: false,
       pos: position,
