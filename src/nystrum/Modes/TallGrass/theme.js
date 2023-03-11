@@ -45,7 +45,16 @@ export const TILE_KEY = {
     sprite: '',
     passable: true,
     lightPassable: true,
-    tags: ['BURNABLE', 'BRAMBLES'],
+    tags: ['BURNABLE', 'BRAMBLES', 'BERRIES'],
+  },
+  'BERRY': {
+    background: COLORS.blue,
+    foreground: COLORS.sunset,
+    character: 'b',
+    sprite: '',
+    passable: true,
+    lightPassable: true,
+    tags: ['BURNABLE', 'BERRIES'],
   },
   'BRAMBLE': {
     background: COLORS.ebony,
@@ -54,7 +63,7 @@ export const TILE_KEY = {
     sprite: '',
     passable: true,
     lightPassable: true,
-    tags: ['BURNABLE'],
+    tags: ['BURNABLE', 'BERRIES'],
   },
   'GROUND': {
     background: COLORS.black,
@@ -62,7 +71,7 @@ export const TILE_KEY = {
     character: '.',
     sprite: '',
     passable: true,
-    tags: ['BURNABLE'],
+    tags: ['BURNABLE',],
   },
   'GROUND_ALT': {
     background: COLORS.black,

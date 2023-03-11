@@ -15,7 +15,7 @@ import { Battery } from './Items/Pickups/Battery';
 import { JACINTO_SOUNDS } from '../Jacinto/sounds';
 import { Revolver, Shotgun } from './Items/Weapons/Revolver';
 import { Knife, Machete } from './Items/Weapons/Melee';
-import { Brambles } from './Items/Environment/Brambles';
+import { Berries, Brambles } from './Items/Environment/Brambles';
 import { GlowStick } from './Items/Pickups/GlowSticks';
 
 export class SomethingInTheTallGrass extends Mode {
@@ -30,7 +30,7 @@ export class SomethingInTheTallGrass extends Mode {
     this.data = {
       level: 1,
       // finalLevel: 1,
-      finalLevel: 1,
+      finalLevel: 10,
       finalLevelAmmo: 10,
       finalLevelBattery: 3,
       finalLevelMonsters: 1,
@@ -53,7 +53,8 @@ export class SomethingInTheTallGrass extends Mode {
         this.addBeacon.bind(this),
         this.addNest.bind(this),
       ],
-      bramblePatchAmount: 5,
+      bramblePatchAmount: 8,
+      berryPatchAmount: 3,
     };
 
     // this.game.fovActive = true
@@ -84,6 +85,7 @@ export class SomethingInTheTallGrass extends Mode {
     }
 
     this.addBrambles()
+    this.addBerries()
     this.addTallGrass()
   }
 
@@ -204,7 +206,7 @@ export class SomethingInTheTallGrass extends Mode {
 
   addBrambles() {
     const keys = this.getEmptyTileKeysByTags(['BRAMBLES'])
-    const amount = this.data.bramblePatchAmount
+    const amount = Helper.getRandomIntInclusive(0, this.data.bramblePatchAmount)
     const randomSelection = Helper.getNumberOfItemsInArray(amount, keys)
     randomSelection.forEach((key) => {
       this.addBramblePatch(Helper.stringToCoords(key))
@@ -222,6 +224,42 @@ export class SomethingInTheTallGrass extends Mode {
         }
       }
     })
+  }
+
+  placeBrambleBush(position) {
+    const bramble = Brambles(this.game.engine, position) 
+
+    this.game.map[Helper.coordsToString(position)].type = 'BRAMBLE'
+    this.game.placeActorOnMap(bramble)
+  }
+ 
+  addBerries() {
+    const keys = this.getEmptyTileKeysByTags(['BERRIES'])
+    const amount = Helper.getRandomIntInclusive(0, this.data.berryPatchAmount)
+    const randomSelection = Helper.getNumberOfItemsInArray(amount, keys)
+    randomSelection.forEach((key) => {
+      this.addBerryPatch(Helper.stringToCoords(key))
+    })
+  }
+
+  addBerryPatch(origin) {
+    const size = Helper.getRandomIntInclusive(1, 2)
+    const clearedPositions = Helper.getPointsWithinRadius(origin, size)
+    clearedPositions.forEach((position) => {
+      const tile = MapHelper.getTileFromMap({map: this.game.map, position})
+      if (tile) {
+        if (MapHelper.tileHasTag({tile, tag: 'BERRIES'})) {
+          this.placeBerryBush(position)
+        }
+      }
+    })
+  }
+
+  placeBerryBush(position) {
+    const bush = Berries(this.game.engine, position) 
+    
+    this.game.map[Helper.coordsToString(position)].type = 'BERRY'
+    this.game.placeActorOnMap(bush)
   }
 
   addOvergrowth() {
@@ -299,13 +337,6 @@ export class SomethingInTheTallGrass extends Mode {
     }
     digger.create(digCallback.bind(this));
     digger.connect(digCallback.bind(this))
-  }
-
-  placeBrambleBush(position) {
-    const bramble = Brambles(this.game.engine, position) 
-
-    this.game.map[Helper.coordsToString(position)].type = 'BRAMBLE'
-    this.game.placeActorOnMap(bramble)
   }
 
   placeTallGrass(position, onlyOnEmptyTiles = false) {
