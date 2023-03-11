@@ -98,6 +98,18 @@ export default function (engine) {
           lantern.incrementLightRange()
         },
       }),
+      q: () => new AddStatusEffect({
+        label: 'Steady Nerves',
+        game: engine.game,
+        actor,
+        energyCost: Constant.ENERGY_THRESHOLD * 2,
+        onSuccess: () => actor.setFear(0),
+        effect: new TakeAim({
+          buffValue: 10,
+          game: engine.game,
+          actor,
+        }),
+      }),
       // q: () => new Say({
       //   label: 'Dim',
       //   message: 'you crank the knob left. the light dims.',
@@ -207,17 +219,6 @@ export default function (engine) {
         actor,
         passThroughEnergyCost: Constant.ENERGY_THRESHOLD,
       }),
-      v: () => new AddStatusEffect({
-        label: 'Steady The Nerves',
-        game: engine.game,
-        actor,
-        energyCost: Constant.ENERGY_THRESHOLD * 2,
-        effect: new TakeAim({
-          buffValue: 10,
-          game: engine.game,
-          actor,
-        }),
-      }),
       mouseOver: (mousePosition) => {
         return new MoveTargetingCursor({
           hidden: true,
@@ -267,12 +268,13 @@ export default function (engine) {
     presentingUI: true,
     faction: 'PEOPLE',
     enemyFactions: ['MONSTER'],
+    maxFearPoints: 10,
     initializeKeymap: keymap,
   })
 
   // add default items to container
   const primary = Revolver(engine, actor.getPosition());
-  const lantern = Lantern({engine, lightRange: 6})
+  const lantern = Lantern({engine, lightRange: 1})
   // lantern.setPosition(actor.getPosition())
   const ammo = Array(2).fill('').map(() => Ammo(engine));
   const grenades = Array(2).fill('').map(() => Grenade(engine, 6));

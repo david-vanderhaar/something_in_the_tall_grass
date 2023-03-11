@@ -36,12 +36,6 @@ export const Equiping = superclass => class extends superclass {
     return equipment.length > 0;
   }
   getItemInSlot(slotName) {
-    let openSlots = this.equipment.filter((slot) => {
-      return (slot.item === null && slot.type === slotName);
-    });
-    if (openSlots.length > 0) {
-      return false;
-    }
     let slot = this.equipment.find((slot) => slot.type === slotName);
     if (!slot) {
       return false;

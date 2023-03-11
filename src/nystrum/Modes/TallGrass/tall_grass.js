@@ -56,7 +56,7 @@ export class SomethingInTheTallGrass extends Mode {
       bramblePatchAmount: 5,
     };
 
-    // this.game.fovActive = true
+    this.game.fovActive = true
   }
 
   initialize() {

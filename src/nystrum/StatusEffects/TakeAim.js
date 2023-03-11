@@ -8,6 +8,12 @@ export class TakeAim extends Base {
     this.name = 'Take Aim';
     this.allowDuplicates = false
     this.lifespan = -1
+    this.renderer = {
+      character: '+',
+      sprite: '+',
+      background: COLORS.gray,
+      color: COLORS.base3,
+    }
     this.particleTemplate = {
       renderer: {
         character: '+',
