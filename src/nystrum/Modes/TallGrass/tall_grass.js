@@ -36,6 +36,7 @@ export class SomethingInTheTallGrass extends Mode {
       finalLevelMonsters: 10,
       // finalLevelMonsterNests: 0,
       finalLevelMonsterNests: 4,
+      monstersPerLevel: 5,
       lootCachesPerLevel: 5,
       lootPerLevel: 4,
       lootList: [
@@ -46,6 +47,11 @@ export class SomethingInTheTallGrass extends Mode {
         Knife,
         Machete,
         GlowStick,
+      ],
+      lootCacheList: [
+        this.addBuilding.bind(this),
+        this.addBeacon.bind(this),
+        this.addNest.bind(this),
       ],
       bramblePatchAmount: 5,
     };
@@ -65,7 +71,7 @@ export class SomethingInTheTallGrass extends Mode {
       this.placePlayerOnEmptyTile()
       // this.placePlayerAtPosition({x: 1, y: 8})
       this.addLootCaches(this.data.lootCachesPerLevel)
-      this.addMonsters()
+      this.addMonsters(this.data.monstersPerLevel)
       this.placeGeneratorPiece(Helper.getRandomPos(this.game.map).coordinates)
     } else {
       const mapCenter = this.mapCenter()
@@ -119,15 +125,7 @@ export class SomethingInTheTallGrass extends Mode {
 
   addLootCaches(numberOfCaches) {
     Helper.range(numberOfCaches).forEach(() => {
-      const cacheGenerator = Helper.getRandomInArray([
-        // overgrown buildings
-        this.addBuilding.bind(this),
-        // beacons & boxes (broken tools and equipment)
-        this.addBeacon.bind(this),
-        // monster nests (eggs, webs, bones)
-        this.addNest.bind(this),
-      ])
-
+      const cacheGenerator = Helper.getRandomInArray(this.data.lootCacheList)
       cacheGenerator()
     })
 
