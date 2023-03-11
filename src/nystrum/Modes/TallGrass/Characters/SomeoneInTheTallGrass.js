@@ -17,7 +17,6 @@ import {OpenUpgrades} from '../../../Actions/OpenUpgrades';
 import {OpenDropInventory} from '../../../Actions/OpenDropInventory';
 import {Upgrade} from '../../../Entities/Upgradable';
 import {PickupAllItems} from '../../../Actions/PickupAllItems';
-import { Grenade } from '../../../Items/Weapons/Grenade';
 import { Ammo } from '../../../Items/Pickups/Ammo';
 import {COLORS} from '../../Jacinto/theme';
 import * as TALL_GRASS_CONSTANT from '../../TallGrass/theme';
@@ -37,6 +36,7 @@ import { Revolver } from '../Items/Weapons/Revolver';
 import { Battery } from '../Items/Pickups/Battery';
 import { LayGrass } from '../StatusEffects/LayGrass';
 import { GlowStick } from '../Items/Pickups/GlowSticks';
+import { Grenade } from '../Items/Weapons/Grenade';
 
 
 export default function (engine) {
@@ -89,7 +89,7 @@ export default function (engine) {
       }),
       e: () => new Say({
         label: 'Hand Crank',
-        message: 'you use the hande crank. the light burns brighter.',
+        message: 'you use the hand crank. the light burns brighter.',
         game: engine.game,
         actor,
         energyCost: Math.ceil(actor.speed / 100 / 2) * Constant.ENERGY_THRESHOLD,
@@ -172,6 +172,16 @@ export default function (engine) {
           onSuccess: handleMoveSuccess,
         });
       },
+      g: () => new PickupAllItems({
+        label: 'Pickup',
+        game: engine.game,
+        actor,
+      }),
+      o: () => new OpenDropInventory({
+        label: 'Drop Items',
+        game: engine.game,
+        actor,
+      }),
       l: () => new PrepareLooking({
         label: 'Look',
         game: engine.game,
@@ -197,24 +207,14 @@ export default function (engine) {
         game: engine.game,
         actor,
       }),
-      o: () => new OpenDropInventory({
-        label: 'Drop Items',
-        game: engine.game,
-        actor,
-      }),
       p: () => new OpenEquipment({
         label: 'Equipment',
         game: engine.game,
         actor,
       }),
-      g: () => new PickupAllItems({
-        label: 'Pickup',
-        game: engine.game,
-        actor,
-      }),
       t: () => new PrepareDirectionalThrow({ // add glow stick throwable?
         label: 'Grenade',
-        projectileType: 'Grenade',
+        projectileType: 'grenade',
         game: engine.game,
         actor,
         passThroughEnergyCost: Constant.ENERGY_THRESHOLD,
@@ -276,10 +276,10 @@ export default function (engine) {
   const primary = Revolver(engine, actor.getPosition());
   const lantern = Lantern({engine, lightRange: 6})
   // lantern.setPosition(actor.getPosition())
-  const ammo = Helper.duplicate(3, () => Ammo(engine))
-  const grenades = Array(2).fill('').map(() => Grenade(engine, 6));
-  const glowSticks = Array(2).fill('').map(() => GlowStick(engine, actor.getPosition()))
-  const batteries = Array(2).fill('').map(() => Battery());
+  const ammo = Helper.duplicate(4, () => Ammo(engine))
+  const grenades = Array(1).fill('').map(() => Grenade(engine, actor.getPosition()));
+  const glowSticks = Array(1).fill('').map(() => GlowStick(engine, actor.getPosition()))
+  const batteries = Array(1).fill('').map(() => Battery());
   actor.container = [
     new ContainerSlot({
       itemType: ammo[0].name,

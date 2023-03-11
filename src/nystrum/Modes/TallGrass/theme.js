@@ -79,7 +79,7 @@ export const TILE_KEY = {
     character: '',
     sprite: '',
     passable: true,
-    tags: [],
+    tags: ['BURNABLE'],
   },
   'NEST': {
     background: COLORS.liver,

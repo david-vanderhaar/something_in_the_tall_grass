@@ -47,6 +47,7 @@ export const Battery = (strength = 4) => {
 
   return new RenderedWithPickUpEffects({
     name: 'battery',
+    baseDescription: 'special tech allows this battery to power up any adjacent light when dropped.',
     passable: true,
     lightPassable: true,
     renderer: {

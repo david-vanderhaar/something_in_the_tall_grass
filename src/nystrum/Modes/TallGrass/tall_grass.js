@@ -17,6 +17,7 @@ import { Revolver, Shotgun } from './Items/Weapons/Revolver';
 import { Knife, Machete } from './Items/Weapons/Melee';
 import { Berries, Brambles } from './Items/Environment/Brambles';
 import { GlowStick, SmallGlowStick, SuperGlowStick } from './Items/Pickups/GlowSticks';
+import { Grenade } from './Items/Weapons/Grenade';
 
 export class SomethingInTheTallGrass extends Mode {
   constructor({ ...args }) {
@@ -34,10 +35,11 @@ export class SomethingInTheTallGrass extends Mode {
       finalLevelBattery: 2,
       finalLevelMonsters: 6,
       finalLevelMonsterNests: 3,
-      monstersPerLevel: [2, 10],
+      monstersPerLevel: [2, 6],
       lootCachesPerLevel: [1, 5],
       lootPerLevel: [2, 8],
       lootList: [
+        Grenade,
         Ammo,
         Ammo,
         Ammo,
@@ -61,19 +63,20 @@ export class SomethingInTheTallGrass extends Mode {
         Revolver,
         Machete,
         Shotgun,
+        Grenade,
       ],
       lootCacheList: [
         this.addBuilding.bind(this),
         this.addBuilding.bind(this),
-        this.addBuilding.bind(this),
+        this.addBeacon.bind(this),
         this.addBeacon.bind(this),
         this.addNest.bind(this),
       ],
-      bramblePatchAmount: [1, 8],
+      bramblePatchAmount: [1, 6],
       berryPatchAmount: [0, 4],
     };
 
-    // this.game.fovActive = true
+    this.game.fovActive = true
   }
 
   initialize() {
