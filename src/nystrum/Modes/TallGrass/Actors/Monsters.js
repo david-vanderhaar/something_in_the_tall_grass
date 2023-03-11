@@ -30,6 +30,10 @@ export function addHider (mode, pos) {
   addGrubToMapWithStats(mode, pos, GRUB_STATS.hider())
 }
 
+export function addJuvenile (mode, pos) {
+  addGrubToMapWithStats(mode, pos, GRUB_STATS.juvenile())
+}
+
 export function addRandom (mode, pos) {
   addRandomBasicGrubToMap(mode, pos)
 }
@@ -39,7 +43,7 @@ const GRUB_STATS = {
     return {
       name: 'adolescent',
       renderer: {
-        character: Helper.getRandomInArray(['a']),
+        character: 'a',
         color: COLORS.flesh1,
         background: COLORS.flesh3,
         sprite: '',
@@ -48,6 +52,43 @@ const GRUB_STATS = {
       attackDamage: 1,
       baseDescription: 'a wrinkled, pale-fleshed abomination.',
       baseDescriptors: ['gutteral chirps and bloodthirst keep you at bay.'],
+      behaviors: [
+        new Behaviors.MoveTowardsEnemy({repeat: 5}),
+        new Behaviors.Telegraph({repeat: 1, attackPattern: Constant.CLONE_PATTERNS.clover}),
+        new Behaviors.ExecuteAttack({
+          repeat: 1,
+          extraActionParams: {
+            onSuccess: () => {
+              Helper.getRandomInArray([
+                JACINTO_SOUNDS.wretch_melee_01,
+                JACINTO_SOUNDS.wretch_melee_02,
+                JACINTO_SOUNDS.wretch_melee_03,
+              ]).play()
+            }
+          }
+        }),
+      ],
+    }
+  },
+  juvenile: () => {
+    return {
+      name: 'juvenile',
+      renderer: {
+        character: 'j',
+        color: COLORS.ebony,
+        background: COLORS.flesh3,
+        sprite: '',
+      },
+      durability: 1,
+      attackDamage: 2,
+      baseDescription: 'a hunched, ebon-fleshed abomination.',
+      baseDescriptors: ['the grass is ingrown into its skin', 'this must be an older one'],
+      onDestroy: (actor) => {
+        const position = actor.getPosition()
+        const allPositions = Helper.getPointsWithinRadius(position, 3)
+        const positions = Helper.getNumberOfItemsInArray(10, allPositions)
+        positions.forEach((pos) => actor.game.mode.placeTallGrass(pos))
+      },
       behaviors: [
         new Behaviors.MoveTowardsEnemy({repeat: 5}),
         new Behaviors.Telegraph({repeat: 1, attackPattern: Constant.CLONE_PATTERNS.clover}),

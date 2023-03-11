@@ -260,6 +260,7 @@ export class SomethingInTheTallGrass extends Mode {
       MonsterActors.addRandom(
       // MonsterActors.addHider(
       // MonsterActors.addCamoCritter(
+      // MonsterActors.addJuvenile(
         this, 
         Helper.getRandomPos(this.game.map).coordinates)
       )
@@ -310,6 +311,9 @@ export class SomethingInTheTallGrass extends Mode {
   }
 
   placeTallGrass(position) {
+    const tile = this.game.map[Helper.coordsToString(position)]
+    if (!tile) return
+
     const grass = new Wall({
       durability: 1,
       defense: 0,
@@ -327,7 +331,7 @@ export class SomethingInTheTallGrass extends Mode {
     })
 
     const tileType = Helper.getRandomInArray(['GROUND', 'GROUND_ALT'])
-    this.game.map[Helper.coordsToString(position)].type = tileType
+    tile.type = tileType
     this.game.placeActorOnMap(grass)
   }
 
