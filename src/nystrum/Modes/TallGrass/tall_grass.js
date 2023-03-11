@@ -308,9 +308,10 @@ export class SomethingInTheTallGrass extends Mode {
     this.game.placeActorOnMap(bramble)
   }
 
-  placeTallGrass(position) {
+  placeTallGrass(position, onlyOnEmptyTiles = false) {
     const tile = this.game.map[Helper.coordsToString(position)]
     if (!tile) return
+    if (onlyOnEmptyTiles && tile.entities.length > 0) return
 
     const grass = new Wall({
       durability: 1,

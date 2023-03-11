@@ -191,15 +191,15 @@ const EquipmentCard = (props) => {
         </div>
       )}
       <div className="EquipmentCard__item">
-        <div className="EquipmentCard__item__label">
-          {item.name}
-        </div>
         <div className="EquipmentCard__item__content" style={item.renderer && {
           backgroundColor: item.renderer.background,
           color: item.renderer.color,
           borderColor: item.renderer.color,
         }}>
           {item.renderer.sprite ? item.renderer.sprite : item.renderer.character}
+        </div>
+        <div className="EquipmentCard__item__label">
+          {item.name}
         </div>
       </div>
       <div className="EquipmentCard__item__stats">

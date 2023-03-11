@@ -30,7 +30,8 @@ export const LookedAtEntites = ({game}) => {
   if (lookedAt.length <= 0) return null
 
   return (
-    <div style={{top: 0, position: 'absolute', textAlign: 'left', zIndex: 1, maxWidth: '60%'}}>
+    //<div style={{bottom: 0, position: 'absolute', textAlign: 'left', zIndex: 1, maxWidth: '60%'}}>
+    <div style={{textAlign: 'left', zIndex: 1, maxWidth: '60%'}}>
       {lookedAt.map((entity, index) => (
         <div key={index} style={{marginBottom: 10}}>
           <EntityIcon renderer={entity.renderer} />

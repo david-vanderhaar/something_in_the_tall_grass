@@ -91,7 +91,7 @@ const GRUB_STATS = {
         const position = actor.getPosition()
         const allPositions = Helper.getPointsWithinRadius(position, 3)
         const positions = Helper.getNumberOfItemsInArray(10, allPositions)
-        positions.forEach((pos) => actor.game.mode.placeTallGrass(pos))
+        positions.forEach((pos) => actor.game.mode.placeTallGrass(pos, true))
       },
       behaviors: [
         new Behaviors.MoveTowardsEnemy({repeat: 5}),
@@ -128,7 +128,7 @@ const GRUB_STATS = {
         const position = actor.getPosition()
         const allPositions = Helper.getPointsWithinRadius(position, 5)
         const positions = Helper.getNumberOfItemsInArray(20, allPositions)
-        positions.forEach((pos) => actor.game.mode.placeTallGrass(pos))
+        positions.forEach((pos) => actor.game.mode.placeTallGrass(pos, true))
       },
       behaviors: [
         new Behaviors.MoveTowardsEnemy({repeat: 1}),

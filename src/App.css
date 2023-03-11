@@ -370,17 +370,19 @@ ec9c5d */
 
 .EquipmentCard__item {
   margin-right: 10px;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
 }
 
 .EquipmentCard__item__label {
-  background-color: #222;
+  /* background-color: #222;
   border: #222 1px solid;
   border-radius: 6px;
   margin: auto;
   text-align: center;
-  /* position: relative; */
-  width: 90px;
-  /* top: 10px; */
+  width: 90px; */
 }
 
 .SimpleEquipmentCard {
@@ -390,7 +392,7 @@ ec9c5d */
 
 .EquipmentCard__item__label--simple {
   border-radius: 6px;
-  margin: auto;
+  /* margin: auto; */
 }
 
 .EquipmentCard__item__label__amount {
@@ -403,11 +405,11 @@ ec9c5d */
   border-radius: 6px;
   display: flex;
   /* font-family: 'Roboto', 'scroll-o-script'; */
-  height: 100px;
   justify-content: center;
-  margin: auto;
+  /* margin: auto; */
   padding: 10px;
-  width: 100px;
+  height: 50px;
+  width: 50px;
   font-size: 40px;
 }
 
