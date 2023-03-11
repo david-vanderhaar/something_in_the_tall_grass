@@ -10,12 +10,12 @@ import * as CoverGenerator from '../../Maps/coverGenerator';
 import * as BuildingGenerator from '../../Maps/generator';
 import { EmergenceHole, RenderedWithPickUpEffects, Wall } from '../../Entities';
 import { Ammo } from '../../Items/Pickups/Ammo';
-import { Gnasher } from '../../Items/Weapons/Gnasher';
 import { Beacon, Lantern } from '../../Items/Environment/Lantern';
 import { Battery } from './Items/Pickups/Battery';
 import { JACINTO_SOUNDS } from '../Jacinto/sounds';
 import { Revolver, Shotgun } from './Items/Weapons/Revolver';
 import { Knife, Machete } from './Items/Weapons/Melee';
+import { Brambles } from './Items/Environment/Brambles';
 
 export class SomethingInTheTallGrass extends Mode {
   constructor({ ...args }) {
@@ -45,6 +45,7 @@ export class SomethingInTheTallGrass extends Mode {
         Knife,
         Machete,
       ],
+      bramblePatchAmount: 5,
     };
 
     this.game.fovActive = true
@@ -73,6 +74,7 @@ export class SomethingInTheTallGrass extends Mode {
       this.placePlayerAtPosition({x: mapCenter.x + 2, y: mapCenter.y})
     }
 
+    this.addBrambles()
     this.addTallGrass()
     // const player = this.game.getFirstPlayer()
     // player.move(player.getPosition())
@@ -202,6 +204,28 @@ export class SomethingInTheTallGrass extends Mode {
     };
   }
 
+  addBrambles() {
+    const keys = this.getEmptyTileKeysByTags(['BRAMBLES'])
+    const amount = this.data.bramblePatchAmount
+    const randomSelection = Helper.getNumberOfItemsInArray(amount, keys)
+    randomSelection.forEach((key) => {
+      this.addBramblePatch(Helper.stringToCoords(key))
+    })
+  }
+
+  addBramblePatch(origin) {
+    const size = Helper.getRandomIntInclusive(2, 5)
+    const clearedPositions = Helper.getPointsWithinRadius(origin, size)
+    clearedPositions.forEach((position) => {
+      const tile = MapHelper.getTileFromMap({map: this.game.map, position})
+      if (tile) {
+        if (MapHelper.tileHasTag({tile, tag: 'BRAMBLES'})) {
+          this.placeBrambleBush(position)
+        }
+      }
+    })
+  }
+
   addOvergrowth() {
     const keys = this.getEmptyTileKeysByTags(['OVERGROWN'])
     const percentOvergrown = 0.3;
@@ -275,6 +299,13 @@ export class SomethingInTheTallGrass extends Mode {
     }
     digger.create(digCallback.bind(this));
     digger.connect(digCallback.bind(this))
+  }
+
+  placeBrambleBush(position) {
+    const bramble = Brambles(this.game.engine, position) 
+
+    this.game.map[Helper.coordsToString(position)].type = 'BRAMBLE'
+    this.game.placeActorOnMap(bramble)
   }
 
   placeTallGrass(position) {

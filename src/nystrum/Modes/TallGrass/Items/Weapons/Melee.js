@@ -17,9 +17,9 @@ export const Knife = (engine, position = {x: 1, y: 1}) => new Weapon({
   equipmentType: Constant.EQUIPMENT_TYPES.HAND,
   renderer: {
     character: '/',
-    sprite: '🗡️',
-    color: TALL_GRASS_COLORS.white,
-    background: '',
+    sprite: '',
+    color: TALL_GRASS_COLORS.gray,
+    background: TALL_GRASS_COLORS.white,
   },
 })
 
@@ -34,7 +34,7 @@ export const Machete = (engine, position = {x: 1, y: 1}) => new Weapon({
   equipmentType: Constant.EQUIPMENT_TYPES.HAND,
   renderer: {
     character: '/',
-    sprite: '🗡️',
+    sprite: '',
     color: TALL_GRASS_COLORS.white,
     background: TALL_GRASS_COLORS.gray,
   },

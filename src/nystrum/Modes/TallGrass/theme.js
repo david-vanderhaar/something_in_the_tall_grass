@@ -45,6 +45,15 @@ export const TILE_KEY = {
     sprite: '',
     passable: true,
     lightPassable: true,
+    tags: ['BURNABLE', 'BRAMBLES'],
+  },
+  'BRAMBLE': {
+    background: COLORS.ebony,
+    foreground: COLORS.sunset,
+    character: '*',
+    sprite: '',
+    passable: true,
+    lightPassable: true,
     tags: ['BURNABLE'],
   },
   'GROUND': {
