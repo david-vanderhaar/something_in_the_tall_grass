@@ -231,7 +231,7 @@ export default function (engine) {
   // instantiate class
   const durability = 5;
   let actor = new Player({
-    pos: { x: 23, y: 7 },
+    // pos: { x: 23, y: 7 },
     renderer: {
       sprite: '',
       character: '@',

@@ -63,6 +63,7 @@ export class SomethingInTheTallGrass extends Mode {
     
     if (this.data.level < this.data.finalLevel) {
       this.placePlayerOnEmptyTile()
+      // this.placePlayerAtPosition({x: 1, y: 8})
       this.addLootCaches(this.data.lootCachesPerLevel)
       this.addMonsters()
       this.placeGeneratorPiece(Helper.getRandomPos(this.game.map).coordinates)
@@ -78,9 +79,6 @@ export class SomethingInTheTallGrass extends Mode {
 
     this.addBrambles()
     this.addTallGrass()
-    // const player = this.game.getFirstPlayer()
-    // player.move(player.getPosition())
-    // this.game.draw()
   }
 
   mapCenter() {
