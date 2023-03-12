@@ -19,6 +19,7 @@ export const JACINTO_SOUND_MANAGER = {
 
 export const JACINTO_SOUNDS = {
   ambient_howling: createSoundFromSource('/sounds/tall_grass/ambient_loop_howls.mp3', {loop: true, rate: 0.75, volume: 0.1}),
+  wind_loop: createSoundFromSource('/sounds/tall_grass/wind_loop.mp3', {loop: true, rate: 0.75, volume: 0.1}),
   sac_01: createSoundFromSource('/sounds/tall_grass/monster/sac_01.ogg'),
   sac_02: createSoundFromSource('/sounds/tall_grass/monster/sac_02.ogg'),
   sac_03: createSoundFromSource('/sounds/tall_grass/monster/sac_03.ogg'),

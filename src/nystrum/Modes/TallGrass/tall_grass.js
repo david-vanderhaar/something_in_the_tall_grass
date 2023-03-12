@@ -90,7 +90,7 @@ export class SomethingInTheTallGrass extends Mode {
   }
 
   initialize() {
-    JACINTO_SOUNDS.ambient_howling.play()
+    JACINTO_SOUNDS.wind_loop.play()
     super.initialize();
     this.game.createEmptyLevel();
     this.generateLevel()
