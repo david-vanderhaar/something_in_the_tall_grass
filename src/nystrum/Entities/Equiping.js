@@ -12,12 +12,20 @@ export const Equiping = superclass => class extends superclass {
     const success = super.move(targetPos)
 
     if (success) {
-      this.equipment.forEach((slot) => {
-        if (slot.item) slot.item.setPosition(targetPos)
-      })
+      this.setAllEquipmentPositions()
+      // this.equipment.forEach((slot) => {
+      //   if (slot.item) slot.item.setPosition(targetPos)
+      // })
     }
 
     return success
+  }
+
+  setAllEquipmentPositions() {
+    const targetPos = this.getPosition()
+    this.equipment.forEach((slot) => {
+      if (slot.item) slot.item.setPosition(targetPos)
+    })
   }
 
   getEquippedItems() {

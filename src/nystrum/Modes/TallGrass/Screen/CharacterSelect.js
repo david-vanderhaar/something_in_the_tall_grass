@@ -1,6 +1,7 @@
 import React from 'react';
 import { CARTRIDGE } from '../../../Nystrum';
 import { SCREENS } from '../../../Screen/constants';
+import HelpContent from '../../../UI/TallGrass/HelpContent';
 
 class Title extends React.Component {
   constructor(props) {
@@ -19,7 +20,8 @@ class Title extends React.Component {
             backgroundColor: CARTRIDGE.theme.main,
           }}
         >
-          <h2>Something In The Tall Grass</h2>
+          <h2 style={{color: CARTRIDGE.theme.accent, marginBottom: 70}}>Something In The Tall Grass</h2>
+          <HelpContent />
           <button
             style={{
               backgroundColor: CARTRIDGE.theme.accent,

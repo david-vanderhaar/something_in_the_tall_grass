@@ -91,7 +91,17 @@ const GRUB_STATS = {
         const position = actor.getPosition()
         const allPositions = Helper.getPointsWithinRadius(position, 3)
         const positions = Helper.getNumberOfItemsInArray(10, allPositions)
-        positions.forEach((pos) => actor.game.mode.placeTallGrass(pos, true))
+        positions.forEach((pos) => {
+          actor.attack(pos)
+          actor.game.mode.placeTallGrass(pos, true)
+        })
+        actor.game.addMessage(
+          `${actor.name} withers, and then bursts sending sharp stalks of tall grass in every direction`,
+          {
+            color: COLORS.sunset,
+            backgroundColor: COLORS.ebony,
+          }
+        );
       },
       behaviors: [
         new Behaviors.MoveTowardsEnemy({repeat: 5}),
@@ -128,10 +138,20 @@ const GRUB_STATS = {
         const position = actor.getPosition()
         const allPositions = Helper.getPointsWithinRadius(position, 5)
         const positions = Helper.getNumberOfItemsInArray(20, allPositions)
-        positions.forEach((pos) => actor.game.mode.placeTallGrass(pos, true))
+        positions.forEach((pos) => {
+          actor.attack(pos)
+          actor.game.mode.placeTallGrass(pos, true)
+        })
+        actor.game.addMessage(
+          `${actor.name} withers, and then bursts sending sharp stalks of tall grass in every direction`,
+          {
+            color: COLORS.sunset,
+            backgroundColor: COLORS.ebony,
+          }
+        );
       },
       behaviors: [
-        new Behaviors.MoveTowardsEnemy({repeat: 1}),
+        new Behaviors.MoveTowardsEnemy({repeat: 2}),
         new Behaviors.Telegraph({repeat: 1, attackPattern: Constant.CLONE_PATTERNS.clover}),
         new Behaviors.ExecuteAttack({
           repeat: 1,

@@ -248,7 +248,7 @@ export default function (engine) {
   // instantiate class
   const durability = 5;
   let actor = new Player({
-    // pos: { x: 23, y: 7 },
+    pos: { x: 0, y: 7 },
     renderer: {
       sprite: '',
       character: '@',
@@ -275,7 +275,6 @@ export default function (engine) {
   // add default items to container
   const primary = Revolver(engine, actor.getPosition());
   const lantern = Lantern({engine, lightRange: 6})
-  // lantern.setPosition(actor.getPosition())
   const ammo = Helper.duplicate(4, () => Ammo(engine))
   const grenades = Array(1).fill('').map(() => Grenade(engine, actor.getPosition()));
   const glowSticks = Array(1).fill('').map(() => GlowStick(engine, actor.getPosition()))

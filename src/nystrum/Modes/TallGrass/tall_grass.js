@@ -118,6 +118,9 @@ export class SomethingInTheTallGrass extends Mode {
     this.addBrambles()
     this.addBerries()
     this.addTallGrass()
+
+    const player = this.game.getFirstPlayer()
+    player.setAllEquipmentPositions()
   }
 
   mapCenter() {
