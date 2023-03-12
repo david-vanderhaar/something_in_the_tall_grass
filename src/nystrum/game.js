@@ -15,7 +15,9 @@ export let GAME = null
 
 // const MAP_WIDTH = 10;
 // const MAP_HEIGHT = 10;
-const MAP_WIDTH = 50;
+// const MAP_WIDTH = 50;
+// const MAP_HEIGHT = 30;
+const MAP_WIDTH = 40;
 const MAP_HEIGHT = 30;
 // const MAP_WIDTH = 28;
 // const MAP_HEIGHT = 20;
