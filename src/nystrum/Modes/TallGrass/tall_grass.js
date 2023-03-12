@@ -493,6 +493,19 @@ export class SomethingInTheTallGrass extends Mode {
     return this.game.engine.actors.filter((actor) => actor['faction'] === 'MONSTER')
   }
 
+  leftoverEntities() {
+    return this.game.engine.actors.filter((actor) => {
+      if (actor['faction'] === 'MONSTER') return true
+      if (actor['enemyFactions'] && actor['enemyFactions'].includes('PEOPLE')) return true
+      if ([
+        'glow stick',
+        'used glow stick',
+        'beacon',
+      ].includes(actor['name'])) return true
+      return false
+    })
+  }
+
   hasWon () {
     return (this.data.level >= this.data.finalLevel && this.enemiesDefeated());
   }
