@@ -40,7 +40,6 @@ export class SomethingInTheTallGrass extends Mode {
       lootCachesPerLevel: [1, 5],
       lootPerLevel: [2, 8],
       lootList: [
-        Grenade,
         Ammo,
         Ammo,
         Ammo,
@@ -515,6 +514,7 @@ export class SomethingInTheTallGrass extends Mode {
       if ([
         'glow stick',
         'used glow stick',
+        'super glow stick',
         'beacon',
       ].includes(actor['name'])) return true
       return false

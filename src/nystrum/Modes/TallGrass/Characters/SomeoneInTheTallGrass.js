@@ -35,7 +35,7 @@ import { Lantern } from '../../../Items/Environment/Lantern';
 import { Revolver } from '../Items/Weapons/Revolver';
 import { Battery } from '../Items/Pickups/Battery';
 import { LayGrass } from '../StatusEffects/LayGrass';
-import { GlowStick } from '../Items/Pickups/GlowSticks';
+import { GlowStick, SuperGlowStick } from '../Items/Pickups/GlowSticks';
 import { Grenade } from '../Items/Weapons/Grenade';
 
 
@@ -278,6 +278,7 @@ export default function (engine) {
   const ammo = Helper.duplicate(4, () => Ammo(engine))
   const grenades = Array(1).fill('').map(() => Grenade(engine, actor.getPosition()));
   const glowSticks = Array(1).fill('').map(() => GlowStick(engine, actor.getPosition()))
+  // const glowSticks = Array(1).fill('').map(() => SuperGlowStick(engine, actor.getPosition()))
   const batteries = Array(1).fill('').map(() => Battery());
   actor.container = [
     new ContainerSlot({

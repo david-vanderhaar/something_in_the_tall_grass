@@ -7,7 +7,7 @@ export const SpitterSac = (engine, position) => new RangedWeapon({
   game: engine.game,
   name: 'spitter sac',
   passable: true,
-  attackRange: 4,
+  attackRange: 3,
   magazineSize: 10,
   baseRangedAccuracy: 0.6,
   baseRangedDamage: 1,
