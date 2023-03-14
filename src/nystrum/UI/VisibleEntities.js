@@ -4,7 +4,7 @@ export const VisibleEntities = ({game}) => {
   return (
     <div className="UI" style={{marginBottom: 20}}>
       {
-        game.entityLog.getAllUniqueEntities().map(
+        game.entityLog.getAllUniqueEntitiesInFov().map(
           (entity, index) => <VisibleEntityCard key={index} entity={entity} />
         )
       }
@@ -16,7 +16,7 @@ const VisibleEntityCard = ({entity}) => {
   return (
     <div>
       <EntityIcon renderer={entity.renderer} />
-      <EntityName entity={entity} />
+      <EntityName entity={entity}/>
       {/* <div style={{marginLeft: 20}}>
         <EntityDescription entity={entity} />
         <StatusEffects actor={entity} />

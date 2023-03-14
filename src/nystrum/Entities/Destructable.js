@@ -1,4 +1,4 @@
-import { destroyEntity } from './helper';
+import { destroyActor } from './helper';
 import * as Helper from '../../helper';
 import { ANIMATION_TYPES } from '../Display/konvaCustom';
 import spatterEmitter from '../Engine/Particle/Emitters/spatterEmitter';
@@ -100,6 +100,6 @@ export const Destructable = superclass => class extends superclass {
   }
   destroy() {
     this.onDestroy(this);
-    destroyEntity(this);
+    destroyActor(this);
   }
 };

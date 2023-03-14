@@ -1,3 +1,4 @@
+import uuid from 'uuid/v1'
 import * as Helper from '../../helper';
 
 export class Base {
@@ -15,6 +16,7 @@ export class Base {
     renderer = {background: 'green', color: 'white', character: '*'},
     processOnlyOnPlayerTurn = false,
   }) {
+    this.id = uuid()
     this.game = game
     this.actor = actor
     this.name = name

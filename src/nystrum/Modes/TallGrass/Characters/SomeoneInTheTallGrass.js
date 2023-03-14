@@ -88,7 +88,7 @@ export default function (engine) {
         energyCost: Constant.ENERGY_THRESHOLD,
       }),
       e: () => new Say({
-        label: 'Hand Crank',
+        label: 'Lantern Light +',
         message: 'you use the hand crank. the light burns brighter.',
         game: engine.game,
         actor,

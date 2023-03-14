@@ -6,6 +6,7 @@ export class TakeAim extends Base {
   constructor({buffValue = 1, ...args}) {
   super({ ...args });
     this.name = 'Take Aim';
+    this.description = "steady the nerves, breath in, squeeze the trigger. ranged accuray +1000% until you take a step."
     this.allowDuplicates = false
     this.lifespan = -1
     this.renderer = {

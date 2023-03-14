@@ -17,10 +17,17 @@ export let GAME = null
 // const MAP_HEIGHT = 10;
 // const MAP_WIDTH = 50;
 // const MAP_HEIGHT = 30;
-const MAP_WIDTH = 40;
-const MAP_HEIGHT = 30;
 // const MAP_WIDTH = 28;
 // const MAP_HEIGHT = 20;
+// const MAP_WIDTH = 80;
+// const MAP_HEIGHT = 60;
+const MAP_WIDTH = 40;
+const MAP_HEIGHT = 30;
+
+const CAMERA_WIDTH = MAP_WIDTH;
+const CAMERA_HEIGHT = MAP_HEIGHT;
+// const CAMERA_WIDTH = Math.floor(MAP_WIDTH / 2);
+// const CAMERA_HEIGHT = Math.floor(MAP_HEIGHT / 2);
 
 const TILE_OFFSET = 0;
 
@@ -40,8 +47,8 @@ export class Game {
     tileMap = {},
     mapWidth = MAP_WIDTH,
     mapHeight = MAP_HEIGHT,
-    cameraWidth = MAP_WIDTH,
-    cameraHeight = MAP_HEIGHT,
+    cameraWidth = CAMERA_WIDTH,
+    cameraHeight = CAMERA_HEIGHT,
     tileWidth = TILE_WIDTH,
     tileHeight = TILE_HEIGHT,
     tileOffset = TILE_OFFSET,

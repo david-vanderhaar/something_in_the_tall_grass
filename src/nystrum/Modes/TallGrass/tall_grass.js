@@ -18,6 +18,7 @@ import { CombatBaton, Katana, Knife, Machete } from './Items/Weapons/Melee';
 import { Berries, Brambles } from './Items/Environment/Brambles';
 import { GlowStick, SmallGlowStick, SuperGlowStick } from './Items/Pickups/GlowSticks';
 import { Grenade } from './Items/Weapons/Grenade';
+import { destroyEntity } from '../../Entities/helper';
 
 export class SomethingInTheTallGrass extends Mode {
   constructor({ ...args }) {
@@ -82,7 +83,7 @@ export class SomethingInTheTallGrass extends Mode {
         this.addBeacon.bind(this),
         this.addNest.bind(this),
       ],
-      bramblePatchAmount: [1, 6],
+      bramblePatchAmount: [3, 6],
       berryPatchAmount: [0, 4],
     };
 
@@ -99,7 +100,6 @@ export class SomethingInTheTallGrass extends Mode {
     
     if (this.data.level < this.data.finalLevel) {
       this.placePlayerOnEmptyTile()
-      // this.placePlayerAtPosition({x: 1, y: 8})
       this.addLootCaches(Helper.getRandomIntInclusive(...this.data.lootCachesPerLevel))
       this.addOvergrowth()
       this.addLoot(Helper.getRandomIntInclusive(...this.data.lootPerLevel))
@@ -129,9 +129,21 @@ export class SomethingInTheTallGrass extends Mode {
 
   update() {
     super.update();
+    this.updateUI()
     if (this.hasWon()) {
       this.game.toWin()
     }
+  }
+
+  updateUI() {
+    let text = ''
+    if (this.data.level < this.data.finalLevel) {
+      text = `${this.data.level} of ${this.data.finalLevel - 1} fields cleared.`
+    } else {
+      text = `You made it to Base Camp, Defend it.`
+    }
+
+    this.createOrUpdateInfoBlock('gameProgress', {text});
   }
 
   addBaseCamp(origin) {
@@ -465,13 +477,15 @@ export class SomethingInTheTallGrass extends Mode {
 
   goToNextLevel() {
     if (this.data.level >= this.data.finalLevel) return
-
-    this.destroyAllMonsters()
+    // this.game.initializeGameData()
+    // this.destroyAllMonsters()
+    this.destroyAll()
     this.nextLevel();
     this.initialize();
   }
 
   destroyAllMonsters() { this.enemies().forEach((enemy) => enemy.destroy()) }
+  destroyAll() { this.leftoverEntities().forEach((ent) => destroyEntity(ent)) }
 
   // reset () {
   //   this.destroyAllMonsters()
@@ -494,7 +508,8 @@ export class SomethingInTheTallGrass extends Mode {
   }
 
   leftoverEntities() {
-    return this.game.engine.actors.filter((actor) => {
+    // return this.game.engine.actors.filter((actor) => {
+    return this.game.entityLog.getAllEntities().filter((actor) => {
       if (actor['faction'] === 'MONSTER') return true
       if (actor['enemyFactions'] && actor['enemyFactions'].includes('PEOPLE')) return true
       if ([

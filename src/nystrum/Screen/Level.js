@@ -73,6 +73,7 @@ class Level extends React.Component {
             </div>
             <LookedAtEntites game={this.state.game} />
             <Help id="jacinto_help" />
+            <InfoBlocks game={this.state.game} />
             <Instructions 
               game={this.state.game}
               spriteMode={this.state.game.spriteMode}
@@ -83,9 +84,8 @@ class Level extends React.Component {
             {/* <Information game={this.state.game} /> */}
           </div>
           <div style={{flex: 2, paddingRight: 16}}>
-            <InfoBlocks game={this.state.game} />
             <Messages messages={this.state.game.messages.slice(-5).reverse()} />
-            {/* <VisibleEntities game={this.state.game} /> */}
+            <VisibleEntities game={this.state.game} />
             <Equipment game={this.state.game} player={this.state.game.getFirstPlayer()} />
             {/* <Inventory inventory={this.state.game.visibleInventory} /> */}
           </div>
