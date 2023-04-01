@@ -396,10 +396,10 @@ export class SomethingInTheTallGrass extends Mode {
       lightPassable,
       pos: position,
       renderer: {
-        character: Helper.getRandomInArray(["'", '.', '"', ',']),
-        sprite: '',
-        background: lightPassable ? TALL_GRASS_CONSTANT.COLORS.brown_sugar : TALL_GRASS_CONSTANT.COLORS.sunset,
-        color: TALL_GRASS_CONSTANT.COLORS.sandy_brown,
+        character: lightPassable ? '' : Helper.getRandomInArray(["'", '.', '"', ',']),
+        sprite: lightPassable ? '' : '',
+        background: TALL_GRASS_CONSTANT.COLORS.sunset,
+        color: lightPassable ? TALL_GRASS_CONSTANT.COLORS.sunset : TALL_GRASS_CONSTANT.COLORS.sandy_brown,
       }
     })
 
