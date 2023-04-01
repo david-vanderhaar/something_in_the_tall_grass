@@ -385,6 +385,7 @@ export class SomethingInTheTallGrass extends Mode {
     const tile = this.game.map[Helper.coordsToString(position)]
     if (!tile) return
     if (onlyOnEmptyTiles && tile.entities.length > 0) return
+    const lightPassable = Math.random() < 0.3 // 30% chance this grass allows light to pass
 
     const grass = new Wall({
       durability: 1,
@@ -392,12 +393,12 @@ export class SomethingInTheTallGrass extends Mode {
       name: 'tall grass',
       baseDescription: 'grass in the Layoria region is known for its thick outer shell... and for the things that call it home.',
       passable: true,
-      lightPassable: false,
+      lightPassable,
       pos: position,
       renderer: {
         character: Helper.getRandomInArray(["'", '.', '"', ',']),
         sprite: '',
-        background: TALL_GRASS_CONSTANT.COLORS.sunset,
+        background: lightPassable ? TALL_GRASS_CONSTANT.COLORS.brown_sugar : TALL_GRASS_CONSTANT.COLORS.sunset,
         color: TALL_GRASS_CONSTANT.COLORS.sandy_brown,
       }
     })
