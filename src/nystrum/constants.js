@@ -76,6 +76,13 @@ export const TILE_KEY = {
     sprite: '',
     passable: true,
   },
+  'GROUND_ALT': {
+    background: THEMES.SOLARIZED.base03,
+    foreground: THEMES.SOLARIZED.base03,
+    character: '',
+    sprite: '',
+    passable: true,
+  },
   'FLOOR': {
     background: THEMES.SOLARIZED.base02,
     foreground: THEMES.SOLARIZED.base0,

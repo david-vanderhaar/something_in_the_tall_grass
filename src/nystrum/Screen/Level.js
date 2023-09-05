@@ -15,7 +15,7 @@ import Equipment from '../UI/Jacinto/Equipment';
 // import Equipment from '../UI/Equipment';
 
 // import Help from '../UI/Jacinto/Help';
-import Help from '../UI/TallGrass/Help';
+// import Help from '../UI/TallGrass/Help';
 
 class Level extends React.Component {
   constructor(props) {
@@ -72,7 +72,7 @@ class Level extends React.Component {
               {Game.DisplayElement(this.presserRef, Game.handleKeyPress, this.state.game.engine)}
             </div>
             <LookedAtEntites game={this.state.game} />
-            <Help id="jacinto_help" />
+            {/* <Help id="jacinto_help" /> */}
             <InfoBlocks game={this.state.game} />
             <Instructions 
               game={this.state.game}
@@ -81,7 +81,7 @@ class Level extends React.Component {
               toggleSpriteMode={this.toggleSpriteMode.bind(this)}
             />
             {/* <PlayerInformation game={this.state.game} /> */}
-            {/* <Information game={this.state.game} /> */}
+            <Information game={this.state.game} />
           </div>
           <div style={{flex: 2, paddingRight: 16}}>
             <Messages messages={this.state.game.messages.slice(-5).reverse()} />

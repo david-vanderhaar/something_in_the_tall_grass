@@ -25,14 +25,14 @@ function CharacterCard ({actor, game}) {
           unit={1}
           actor={actor} 
         />
-        <ProgressBar 
+        {/* <ProgressBar 
           label='Fear'
           attributePath='fearPoints'
           attributePathMax='maxFearPoints'
           colorFilled='#859900'
           unit={1}
           actor={actor} 
-        />
+        /> */}
         <StatusEffects actor={actor} />
       </div>
       <div>

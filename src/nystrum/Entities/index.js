@@ -189,7 +189,8 @@ export const Player = pipe(
   HasFaction,
   CanActivateStatusEffects,
   UsesCover,
-  Fearful,
+  HasInnerGates,
+  // Fearful,
 )(Entity);
 
 export const Weapon = pipe(
