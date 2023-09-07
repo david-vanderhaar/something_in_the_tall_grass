@@ -5,25 +5,18 @@ import * as Helper from '../../helper';
 export class OpenGates extends Base {
   constructor({...args}) {
     super({ ...args });
-    this.name = 'Open Inner Gates';
     this.lifespan = -1;
     this.allowDuplicates = false
     this['actor_background'] = this.actor.renderer.background;
-    this['nextGate'] = this.actor.setNextGate();
+    const nextGate = this.actor.getNextGate();
+    this.name = nextGate.name;
     this.renderer = {
       background: '#3cc2bb',
       color: '#24fe88',
-      character: this['nextGate'].character,
+      character: nextGate?.character || '0',
     }
     this.onStart = () => {
-      // this.game.addMessage(`${this.actor.name} was enveloped in hardened sand.`, MESSAGE_TYPE.INFORMATION);
-      // const nextGate = this.actor.setNextGate();
-      // this.renderer = {
-      //   background: '#3cc2bb',
-      //   color: '#24fe88',
-      //   character: nextGate.character,
-      // }
-      const nextGate = this['nextGate'];
+      const nextGate = this.actor.setNextGate();
       this.actor.speed += nextGate.buffValue;
       this.actor.energy += nextGate.buffValue;
       this.actor.attackDamage += nextGate.damageBuff;
